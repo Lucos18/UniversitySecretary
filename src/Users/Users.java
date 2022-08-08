@@ -8,8 +8,9 @@ public class Users {
     String sex;
     String email;
     String password;
+    String CF;
     boolean role = false;
-    public Users(String name, String surname, String dateB, String cityB, String sex, String email, String password)
+    public Users(String name, String surname, String dateB, String cityB, String sex, String email, String password, String CF)
     {
         this.name = name;
         this.surname = surname;
@@ -18,13 +19,15 @@ public class Users {
         this.sex = sex;
         this.email = email;
         this.password = password;
+        this.CF=CF;
     }
-    public Users(String name, String surname, String email, String password, Boolean role)
+    public Users(String name, String surname, String email, String password, String CF, Boolean role)
     {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
+        this.CF=CF;
         this.role = role;
     }
 }
