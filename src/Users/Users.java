@@ -36,8 +36,8 @@ public class Users {
     }
     //Function to register a user in the University JSON, with different user information.
     public static boolean RegisterUser(Users user) throws IOException, InterruptedException {
-        String CF = SSN.SSNC(user);
-        user.setCF(CF);
+        /*String CF = SSN.SSNC(user);
+        user.setCF(CF);*/
         //Define the JSON Object, Array and Parser
         JSONObject jobject = new JSONObject();
         JSONArray jsonArray = new JSONArray();

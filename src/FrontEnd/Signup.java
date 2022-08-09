@@ -1,12 +1,17 @@
 package FrontEnd;
 
 import Users.*;
+import SSN.*;
+import FrontEnd.*;
+import com.sun.jdi.PathSearchingVirtualMachine;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.io.IOException;
+import java.nio.charset.MalformedInputException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -26,6 +31,7 @@ public class Signup {
     private JComboBox sexCmbox;
     private JButton loginButton;
     private JPanel mainPanel;
+    static JFrame frame;
 
     private static boolean checkDate(String date) {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -47,7 +53,12 @@ public class Signup {
                 if(nameTxtFld.isValid() && surnameTxtFld.isValid() && birthcTxtFld.isValid() && birthdTxtFld.isValid() && sexCmbox.isValid()&&checkDate(birthdTxtFld.getText()))
                 {
                     u = new Users (nameTxtFld.getText(),surnameTxtFld.getText(),birthdTxtFld.getText(),birthcTxtFld.getText(),sexCmbox.toString(),null,null); //creation and inazialization of the object user
-                    SSNTxtFld.setText("CHIAMATA FUNZIONE SSN");
+                    try {
+                        SSNTxtFld.setText(SSN.SSNC(u));
+                    } catch (IOException | InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+
                 }
             }
         });
@@ -56,8 +67,34 @@ public class Signup {
         signupButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                u.setCF(SSNTxtFld.getText());
+                if(emailTxtFld.isValid()&& Users.checkEmailValidation(emailTxtFld.getText()))
+                    u.setEmail(emailTxtFld.getText());
+                if(passwordTxtFld.isValid())
+                    u.setPassword(String.valueOf(passwordTxtFld.getPassword()));
+                try {
+                    Users.RegisterUser(u);
+                } catch (IOException | InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Login.main(null);
+                frame.dispose();
+            }
+        });
+
+    }
+
+    public static void main(String[] args) {
+        frame = new JFrame();
+        frame.setContentPane(new Signup().mainPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setSize(600, 800);
+        frame.setVisible(true);
     }
 }
