@@ -18,6 +18,7 @@ public class Users {
     String sex;
     String email;
     String password;
+
     String CF = null;
     boolean role = false;
     public Users(String name, String surname, String dateB, String cityB, String sex, String email, String password)
@@ -46,11 +47,12 @@ public class Users {
         }
         //Insert user email information inside the json object
         jobject.put("Email", user.getEmail());
+        jobject.put("CF", user.getCF());
         //The boolean will check if the user exist inside the json file
         boolean userNotExist = true;
         //looping inside the jsonArray, checking if the user exist inside the json file by checking the email
         for (int i = 0; i < jsonArray.size(); i++) {
-            if ((((JSONObject) jsonArray.get(i)).get("Email").equals(jobject.get("Email")))) {
+            if ((((JSONObject) jsonArray.get(i)).get("Email").equals(jobject.get("Email"))) || (((JSONObject) jsonArray.get(i)).get("CF").equals(jobject.get("CF")))) {
                 //If the email of user has been found inside the json Array it will set the "userNotExist" variable to false
                 userNotExist = false;
             }
@@ -135,6 +137,12 @@ public class Users {
     }
     public String getEmail() {
         return email;
+    }
+    public String getCF(){
+        return CF;
+    }
+    public void setCF(String CF){
+        this.CF = CF;
     }
 }
 

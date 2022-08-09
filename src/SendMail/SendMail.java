@@ -1,5 +1,7 @@
 package SendMail;
-import Users.Users;
+
+
+import javax.mail.Authenticator;
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
@@ -17,7 +19,7 @@ public class SendMail {
         props.put("mail.smtp.port", "587");
         //Creating a session with the outlook servers
         Session session = Session.getInstance(props,
-                new javax.mail.Authenticator() {
+                new Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
                         return new PasswordAuthentication(username, password);
                     }

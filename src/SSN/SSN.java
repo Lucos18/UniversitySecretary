@@ -12,17 +12,17 @@ import Users.Users;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class SSN extends Users {
-    private Boolean isVocale(char lettera){
+public class SSN {
+
+    private static Boolean isVocale(char lettera){
         return lettera == 'a' || lettera == 'e' || lettera == 'i' || lettera == 'o' || lettera == 'u';
     }
-    private String codiceFiscale = "";
 
-    public SSN(String name, String surname, String dateB, String cityB, String sex, String email, String password) throws IOException, InterruptedException {
-        super(name, surname, dateB, cityB, sex, email, password);
 
+    public static String SSNC(Users user) throws IOException, InterruptedException {
+        String codiceFiscale = "";
         int i , cntConsonanti = 0;
-        String lowerSurname = surname.toLowerCase();
+        String lowerSurname = user.getSurname().toLowerCase();
 
 // SURNAME.1 = SERVONO LE PRIME 3 CONSONANTI
         for(i = 0; codiceFiscale.length() != 3 && i < lowerSurname.length(); ++i){
@@ -38,11 +38,11 @@ public class SSN extends Users {
             }
         }
 // SURNAME.3 = se il cognome è di sole 2 lettere, nel terzo carattere DEVE ESSERE inserita una X
-        if(surname.length() == 2) codiceFiscale += 'X';
+        if(user.getSurname().length() == 2) codiceFiscale += 'X';
 
 // NAME.1 = .....
 //It removes all white spaces from TaxCode when name or surname has more than one word
-        String lowerName = name.toLowerCase();
+        String lowerName = user.getName().toLowerCase();
         lowerName = (lowerName.replaceAll(" ", ""));
 
         cntConsonanti = 0;
@@ -65,13 +65,10 @@ public class SSN extends Users {
             }
         }
 // NAME.4 = .....
-        if(name.length() == 2) codiceFiscale += 'X';
-
-
-        System.out.println(cntConsonanti);
+        if(user.getName().length() == 2) codiceFiscale += 'X';
 
 // BIRTH DATE.1 = .....
-        String[] dataNascita = dateB.split("/");
+        String[] dataNascita = user.getdateB().split("/");
 
         codiceFiscale += dataNascita[2].charAt(2);
         codiceFiscale += dataNascita[2].charAt(3);
@@ -110,14 +107,14 @@ public class SSN extends Users {
         }
 // DATA NASCITA.3 = .....
         if(Integer.parseInt(dataNascita[0]) < 10) dataNascita[0] = "" + dataNascita[0];
-        if(sex == "F") dataNascita[0] = String.valueOf(Integer.parseInt(dataNascita[0]) + 40);
+        if(user.getSex() == "F") dataNascita[0] = String.valueOf(Integer.parseInt(dataNascita[0]) + 40);
 
         codiceFiscale += dataNascita[0];
 
 // COMUNE NASCITA.1 = .....
 //Creating Client to do an API request for "CodiceStatale" of CityB
         var client = HttpClient.newHttpClient();
-        cityB = (cityB.replaceAll(" ", "%20"));
+        String cityB = (user.getCityB().replaceAll(" ", "%20"));
 //Creating request for the API request
         var request = HttpRequest.newBuilder(
                 URI.create("https://www.gerriquez.com/comuni/ws.php?dencomune="+ cityB))
@@ -125,7 +122,6 @@ public class SSN extends Users {
                 .build();
 //The response will be in JSON format, and it will contain all the information of the CityB
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
         String risposta= response.body();
         JSONArray jsonArray = new JSONArray();
         JSONParser jsonParser = new JSONParser();
@@ -255,7 +251,7 @@ public class SSN extends Users {
             case 25:{carattereControllo="Z";break;}
         }
         codiceFiscale+=carattereControllo;
+        return codiceFiscale;
     }
-
-    public String getCodiceFiscale(){return codiceFiscale;}
 }
+
