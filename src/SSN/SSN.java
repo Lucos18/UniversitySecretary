@@ -13,6 +13,7 @@ import org.json.simple.JSONObject;
 
 import Users.Users;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class SSN extends Users {
     private Boolean isVocale(char lettera){
@@ -129,20 +130,18 @@ public class SSN extends Users {
         //The response will be in JSON format, and it will contain all the information of the CityB
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());
         System.out.println(response.body());
+        String risposta= response.body();
         JSONArray jsonArray = new JSONArray();
         JSONParser jsonParser = new JSONParser();
-        /*
+
         try{
-            jsonArray = (JSONArray) jsonParser.parse(response)
+            jsonArray = (JSONArray) jsonParser.parse(risposta);
+        }
+        catch(ParseException e){
+            throw new RuntimeException(e);
         }
 
-         */
-
-
-
-        /* "NA","codiceCatastale":"F839" */
-
-        codiceFiscale += "[]";
+        codiceFiscale += (String) ((JSONObject) jsonArray.get(0)).get("CodiceCatastaleDelComune");
 
         // CARATTERE DI CONTROLLO
 
