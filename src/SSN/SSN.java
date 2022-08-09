@@ -12,6 +12,7 @@ import org.json.simple.JSONObject;
 // SI POTREBBE CONTROLLARE LA CORRETTEZZA DEL FORMATO DELLA DATA DI NASCITA
 
 import Users.Users;
+import org.json.simple.parser.JSONParser;
 
 public class SSN extends Users {
     private Boolean isVocale(char lettera){
@@ -42,7 +43,9 @@ public class SSN extends Users {
         if(surname.length() == 2) codiceFiscale += 'X';
 
         // NOME.1 = .....
+        //It removes all white spaces from TaxCode when name or surname has more than one word
         String lowerName = name.toLowerCase();
+        lowerName = (lowerName.replaceAll(" ", ""));
 
         cntConsonanti = 0;
         for(i = 0; i < lowerName.length(); ++i){
@@ -65,6 +68,9 @@ public class SSN extends Users {
         }
         // NOME.4 = .....
         if(name.length() == 2) codiceFiscale += 'X';
+
+
+        System.out.println(cntConsonanti);
 
         // DATA NASCITA.1 = .....
         String[] dataNascita = dateB.split("/");
@@ -113,14 +119,24 @@ public class SSN extends Users {
         codiceFiscale += dataNascita[0];
 
         // COMUNE NASCITA.1 = .....
+        //Creating Client to do an API request for "CodiceStatale" of CityB
         var client = HttpClient.newHttpClient();
+        //Creating request for the API request
         var request = HttpRequest.newBuilder(
                 URI.create("https://www.gerriquez.com/comuni/ws.php?dencomune="+ cityB))
-                        .header("accept", "application/json")
-                        .build();
+                .header("accept", "application/json")
+                .build();
+        //The response will be in JSON format, and it will contain all the information of the CityB
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());
         System.out.println(response.body());
         JSONArray jsonArray = new JSONArray();
+        JSONParser jsonParser = new JSONParser();
+        /*
+        try{
+            jsonArray = (JSONArray) jsonParser.parse(response)
+        }
+
+         */
 
 
 
