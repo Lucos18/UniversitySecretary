@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.text.ParseException;
 import java.util.Iterator;
 
+import SSN.SSN;
 import SendMail.SendMail;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -32,7 +33,9 @@ public class Users {
         this.password = password;
     }
     //Function to register a user in the University JSON, with different user information.
-    public static boolean RegisterUser(Users user) {
+    public static boolean RegisterUser(Users user) throws IOException, InterruptedException {
+        String CF = SSN.SSNC(user);
+        user.setCF(CF);
         //Define the JSON Object, Array and Parser
         JSONObject jobject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
@@ -122,6 +125,9 @@ public class Users {
         }
         return SystemName;
     }
+    public boolean checkEmailValidation(){
+        return true;
+    }
     //All getters and setters of Users
     public String getName() {
         return name;
@@ -149,6 +155,12 @@ public class Users {
     }
     public void setCF(String CF){
         this.CF = CF;
+    }
+    public void setPassword(String Password) {
+        this.password = Password;
+    }
+    public void setEmail(String Email) {
+        this.email = Email;
     }
 }
 
