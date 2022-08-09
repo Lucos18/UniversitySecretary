@@ -32,7 +32,7 @@ public class Users {
         this.password = password;
     }
     //Function to register a user in the University JSON, with different user information.
-    public static void RegisterUser(Users user) {
+    public static boolean RegisterUser(Users user) {
         //Define the JSON Object, Array and Parser
         JSONObject jobject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
@@ -44,6 +44,7 @@ public class Users {
 
         } catch (Exception ex) {
             System.out.println("Generic Error!");
+            return false;
         }
         //Insert user email information inside the json object
         jobject.put("Email", user.getEmail());
@@ -73,15 +74,18 @@ public class Users {
                 file.close();
             } catch (Exception ex) {
                 System.out.println("Generic Error!");
+                return false;
             }
             System.out.println("Registration completed!");
             SendMail.sendMail(user.getEmail(), "Benvenuto, " + user.getName(), "Ti sei registrato alla segreteria universitaria");
+            return true;
         } else {
             System.out.println("User already exist!");
+            return false;
         }
 
     }
-    public static void Login(String email, String password) {
+    public static boolean Login(String email, String password) {
         //Define the JSON Array and Parser
         JSONParser jsonParser = new JSONParser();
         JSONArray userList = new JSONArray();
@@ -97,12 +101,14 @@ public class Users {
                 {
                     SendMail.sendMail(email,"Nuovo accesso effettuato", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName());
                     System.out.println("Login effettuato zio pera");
-                    break;
+                    return true;
                 }
             }
         } catch (IOException | org.json.simple.parser.ParseException e) {
             e.printStackTrace();
+            return false;
         }
+        return false;
     }
     public static String getMachineName(){
         String SystemName = "";

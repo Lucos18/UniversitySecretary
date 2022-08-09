@@ -16,7 +16,8 @@ public class Main {
 
         String CF = SSN.SSNC(user);
         user.setCF(CF);
-        Users.RegisterUser(user);
+        boolean ciao = Users.RegisterUser(user);
+        System.out.println(ciao);
 
         //user.setCF() = SSN.SSNC(user);
     }
