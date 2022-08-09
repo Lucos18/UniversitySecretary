@@ -1,10 +1,11 @@
 package SendMail;
+import Users.Users;
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
 
 public class SendMail {
-    public static void sendMail(String email) {
+    public static void sendMail(String email, String Subject, String Text) {
         //Setting up username and password for login inside the outlook email
         final String username = "maronnasanta99@outlook.it";
         final String password = "santamaronna99";
@@ -27,9 +28,9 @@ public class SendMail {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress("maronnasanta99@outlook.it"));
             message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse("bboh204@gmail.com"));
-            message.setSubject("This will be the Subject of the email");
-            message.setText("This will be the text");
+                    InternetAddress.parse(email));
+            message.setSubject(Subject);
+            message.setText(Text);
 
             Transport.send(message);
 

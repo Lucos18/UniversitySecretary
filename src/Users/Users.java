@@ -1,11 +1,14 @@
 package Users;
 import java.io.*;
+import java.net.InetAddress;
+import java.text.ParseException;
 import java.util.Iterator;
 
+import SendMail.SendMail;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+
 
 public class Users {
     String name;
@@ -77,6 +80,7 @@ public class Users {
                 System.out.println("Generic Error!");
             }
             System.out.println("Registration completed!");
+            SendMail.sendMail(user.getEmail(), "Benvenuto, " + user.getName(), "Ti sei registrato alla segreteria universitaria");
         } else {
             System.out.println("User already exist!");
         }
@@ -96,14 +100,26 @@ public class Users {
                 boolean PasswordFound = ((((JSONObject) userList.get(i)).get("password").equals(password)));
                 if (emailFound && PasswordFound)
                 {
-                    //add there something to do when login is passed
+                    SendMail.sendMail(email,"Nuovo accesso effettuato", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName());
                     System.out.println("Login effettuato zio pera");
                     break;
                 }
             }
-        } catch (IOException | ParseException e) {
+        } catch (IOException | org.json.simple.parser.ParseException e) {
             e.printStackTrace();
         }
+    }
+    public static String getMachineName(){
+        String SystemName = "";
+        try {
+            // get system name
+            SystemName = InetAddress.getLocalHost().getHostName();
+            // SystemName stores the name of the system
+        }
+        catch (Exception E) {
+            System.err.println(E.getMessage());
+        }
+        return SystemName;
     }
     //All getters and setters of Users
     public String getName() {
