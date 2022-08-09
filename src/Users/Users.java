@@ -18,6 +18,7 @@ public class Users {
     String sex;
     String email;
     String password;
+    String CF = null;
     boolean role = false;
     public Users(String name, String surname, String dateB, String cityB, String sex, String email, String password)
     {
@@ -95,7 +96,7 @@ public class Users {
             userList = (JSONArray) jsonParser.parse(reader);
             for (int i = 0; i < userList.size(); i++)
             {
-                //Boolean to see if an email and a password has been found inside the json array
+                //Boolean to see if an email and a password has been found inside the JSON array
                 boolean emailFound = ((((JSONObject) userList.get(i)).get("Email").equals(email)));
                 boolean PasswordFound = ((((JSONObject) userList.get(i)).get("password").equals(password)));
                 if (emailFound && PasswordFound)
