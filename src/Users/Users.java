@@ -30,14 +30,6 @@ public class Users {
         this.email = email;
         this.password = password;
     }
-    public Users(String name, String surname, String email, String password, Boolean role)
-    {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
     //Function to register a user in the University JSON, with different user information.
     public static void RegisterUser(Users user) {
         //Define the JSON Object, Array and Parser
