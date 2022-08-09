@@ -13,10 +13,8 @@ class UsersTest {
     Users user1 = new Users("LUCA","BUONPANE","23/01/2004","SANTA MARIA CAPUA VETERE", "M", "LUCABUONPANE3@GMAIL.COM","SIUM");
     Users user2 = new Users("DAVIDE PASQUALE","GALLO","19/12/2002","NAPOLI", "M", "LUCABUONPANE3@GMAIL.COM","SIUM");
     @BeforeEach
-
     void setUp(){
-        Users user1 = new Users("LUCA","BUONPANE","23/01/2004","SANTA MARIA CAPUA VETERE", "M", "LUCABUONPANE3@GMAIL.COM","SIUM");
-        Users user2 = new Users("DAVIDE PASQUALE","GALLO","19/12/2002","NAPOLI", "M", "LUCABUONPANE3@GMAIL.COM","SIUM");
+
     }
     @Test
     @DisplayName("Registrazione user1")
@@ -25,6 +23,17 @@ class UsersTest {
     }
 
     @Test
-    void login() {
+    @DisplayName("Login user1-user2")
+    void loginUser() {
+        assertEquals(true, Users.Login(user1.getEmail(),user1.getPassword()));
+        assertEquals(false, Users.Login(user2.getEmail(),user2.getPassword()));
+    }
+    @Test
+    @DisplayName("Check different emails")
+    void checkEmail(){
+        assertEquals(true, Users.checkEmailValidation("LUCABUONPANE3@GMAIL.COM"));
+        assertEquals(true, Users.checkEmailValidation("BBOH204@GMAIL.COM"));
+        assertEquals(false, Users.checkEmailValidation("GIANCOMARCIO@GMILCOM"));
+        assertEquals(false, Users.checkEmailValidation("LOCOGMAIL.COM"));
     }
 }

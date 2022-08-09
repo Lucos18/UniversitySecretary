@@ -1,7 +1,11 @@
 package Users;
 import java.io.*;
 import java.net.InetAddress;
+import java.security.InvalidKeyException;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
+import java.util.Base64;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,6 +15,12 @@ import SendMail.SendMail;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
 
 
 public class Users {
@@ -134,6 +144,30 @@ public class Users {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
+    public static String encryptPassword(String password) throws IllegalBlockSizeException, BadPaddingException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        String key = "Bar12345Bar12345";
+        Key aesKey = new SecretKeySpec(key.getBytes(), "AES");
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.ENCRYPT_MODE, aesKey);
+        byte[] encrypted = cipher.doFinal(password.getBytes());
+        //byte[] decryptedPassword = cipher.doFinal();
+        Base64.Encoder encoder = Base64.getEncoder();
+        String encryptedPassword = encoder.encodeToString(encrypted);
+        System.out.println(encryptedPassword);
+        return encryptedPassword;
+    }
+    /*
+    public static String decryptPassword(String encryptedPassword) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        String key = "Bar12345Bar12345";
+        Key aesKey = new SecretKeySpec(key.getBytes(), "AES");
+        Cipher cipher = Cipher.getInstance("AES");
+        Base64.Decoder decoder = Base64.getDecoder();
+        cipher.init(Cipher.DECRYPT_MODE, aesKey);
+        String decrypted = new String(cipher.doFinal(decoder.decode(encryptedPassword)));
+        System.out.println(decrypted);
+        return decrypted;
+    }
+     */
     //All getters and setters of Users
     public String getName() {
         return name;
