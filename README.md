@@ -19,10 +19,15 @@ University Secretary uses Java to build and work properly:
 
 
 ## Installation
+[![My Skills](https://skills.thijs.gg/icons?i=java)](https://skills.thijs.gg)
 
 University Secretary requires [Java](https://www.java.com/it/)  to run.
 
 Install the Java SDK and Java Libraries (Under libraries folder) and build the program.
+
+- [json-simple] used for reading and writing on different [JSON] files used for storing user information or
+OTP codes for verification.
+- [javax_mail] used for send registration, login and OTP mail.
 
 
 
@@ -39,3 +44,6 @@ MIT
 [john gruber]: <http://daringfireball.net>
 [df1]: <http://daringfireball.net/projects/markdown/>
 [Java]: <http://www.java.com>
+[json-simple]: <https://code.google.com/archive/p/json-simple/downloads>
+[JSON]: <https://www.json.org/json-it.html>
+[javax_mail]: <https://github.com/javaee/javamail/releases>
