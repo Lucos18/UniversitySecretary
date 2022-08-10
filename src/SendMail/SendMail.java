@@ -4,12 +4,14 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import javax.mail.Authenticator;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import java.util.Properties;
 import java.util.Random;
+
+import javax.mail.Authenticator;
 import javax.mail.*;
 import javax.mail.internet.*;
 
@@ -67,7 +69,7 @@ public class SendMail {
         JSONObject jobject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         JSONParser jparser = new JSONParser();
-        //Reading the "users.json" file and parsing inside the json Array
+        //Reading the "OTP.json" file and parsing inside the json Array
         try {
             FileReader file = new FileReader("OTP.json");
             jsonArray = (JSONArray) jparser.parse(file);
@@ -79,12 +81,10 @@ public class SendMail {
         jobject.put("Email", email);
         jobject.put("OTP", OTP);
         jsonArray.add(jobject);
-        //The boolean will check if the user exist inside the json file
-        boolean OTPExist = true;
         //looping inside the jsonArray, checking if the user exist inside the json file by checking the email
         for (int i = 0; i < jsonArray.size(); i++) {
             if ((((JSONObject) jsonArray.get(i)).get("Email").equals(jobject.get("Email")))) {
-                //If the email of user has been found inside the json Array it will set the "userNotExist" variable to false
+                //If Email is found inside the "OTP.json" file, it will remove the email object
                 jsonArray.remove(i);
                 break;
             }
@@ -96,13 +96,13 @@ public class SendMail {
         } catch (Exception ex) {
             System.out.println("Generic Error!");
         }
-
     }
     public static Boolean readOTP(String email, String OTP){
         JSONParser jsonParser = new JSONParser();
         JSONArray OTPList = new JSONArray();
+        //Read JSON file "OTP.json" and paste all the content inside the JSON array
         try (FileReader reader = new FileReader("OTP.json")) {
-            //Read JSON file "users.json" and paste all the content inside the JSON array
+
             OTPList = (JSONArray) jsonParser.parse(reader);
             for (int i = 0; i < OTPList.size(); i++)
             {
@@ -111,7 +111,7 @@ public class SendMail {
                 boolean OTPFound = ((((JSONObject) OTPList.get(i)).get("OTP").equals(OTP)));
                 if (emailFound && OTPFound)
                 {
-                    //It will send a mail to the user email with the machine info that did the login.
+                    //It will return true if email and OTP have been found
                     return true;
                 }
             }

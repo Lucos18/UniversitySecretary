@@ -1,17 +1,16 @@
 package Users;
+import SSN.SSN;
+import SendMail.SendMail;
+
 import java.io.*;
 import java.net.InetAddress;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
-import java.text.ParseException;
 import java.util.Base64;
-import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import SSN.SSN;
-import SendMail.SendMail;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -150,10 +149,10 @@ public class Users {
         byte[] encrypted = cipher.doFinal(password.getBytes());
         Base64.Encoder encoder = Base64.getEncoder();
         //Will convert the encoded String to a normal String of the encrypted password
-        String encryptedPassword = encoder.encodeToString(encrypted);
-        return encryptedPassword;
+        return encoder.encodeToString(encrypted);
     }
     public static Boolean confirmOtpRegister(Users user, String email, String OTP){
+        //If exists email and OTP inside the "OTP.json" file then it will create the JSON Object with user information
         if (SendMail.readOTP(email,OTP))
         {
             JSONObject jobject = new JSONObject();
@@ -167,6 +166,7 @@ public class Users {
             jobject.put("dateBirth", user.getdateB());
             jobject.put("sex", user.getSex());
             jsonArray.add(jobject);
+            //It will write the jsonArray inside the users.json file, so it can be considered as a registered user
             try {
                 FileWriter file = new FileWriter("users.json");
                 file.write(jsonArray.toJSONString());
