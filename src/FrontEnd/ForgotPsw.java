@@ -23,7 +23,7 @@ public class ForgotPsw {
                 }
                 else
                 {
-                    //popup otp
+                    JOptionPane.showMessageDialog(null, "Entered OTP is not valid!");
                 }
             }
         });

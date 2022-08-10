@@ -83,7 +83,7 @@ public class Signup {
                         frame.dispose();
                     }
                     else {
-                        //popup otp errato
+                        JOptionPane.showMessageDialog(null, "Entered OTP is not valid!");
                     }
                 }
             } catch (IOException | InterruptedException | IllegalBlockSizeException | NoSuchPaddingException |
