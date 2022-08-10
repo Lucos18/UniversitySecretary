@@ -14,7 +14,8 @@ public class ForgotPsw {
     public ForgotPsw() {
         SendMButton.addActionListener(e -> {
             if(Users.checkEmailValidation(emailTxtFld.getText())) {
-                //otp restore password
+                SendMail.createOTP(emailTxtFld.getText());
+
                 OTP.main(emailTxtFld.getText());
                 while(!(OTP.otpI)){}
                 if(OTP.otpC) {
