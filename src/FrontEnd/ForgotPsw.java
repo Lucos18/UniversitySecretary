@@ -14,11 +14,17 @@ public class ForgotPsw {
     public ForgotPsw() {
         SendMButton.addActionListener(e -> {
             if(Users.checkEmailValidation(emailTxtFld.getText())) {
-                SendMail.sendMail(emailTxtFld.getText(), "ciao", "ciao");
+                //otp restore password
                 OTP.main(emailTxtFld.getText());
-                while(!(OTP.otp)){}
-                ChangePsw.main(null);
+                while(!(OTP.otpI)){}
+                if(OTP.otpC) {
+                    ChangePsw.main(null);
                 frame.dispose();
+                }
+                else
+                {
+                    //popup otp
+                }
             }
         });
     }

@@ -1,10 +1,13 @@
 package FrontEnd;
 
+import SendMail.SendMail;
+
 import javax.swing.*;
 
 
 public class OTP {
-    public static boolean otp;
+    public static boolean otpC=false;
+    public static boolean otpI=false;
     static JFrame frame;
     private JPanel signupPanel;
     private JTextField otpTxtFld;
@@ -15,7 +18,10 @@ public class OTP {
     public OTP() {
         sendOTPButton.addActionListener(e -> {
             if(otpTxtFld.isValid()) {
-                //chiamata funzione otp
+                otpI=true;
+                if(SendMail.readOTP(mail,otpTxtFld.getText())) {
+                    otpC = true;
+                }
                 frame.dispose();
             }
         });

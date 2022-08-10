@@ -72,12 +72,19 @@ public class Signup {
             if(passwordTxtFld.isValid())
                 u.setPassword(String.valueOf(passwordTxtFld.getPassword()));
             try {
-                OTP.main(emailTxtFld.getText());
-                while(!(OTP.otp)){}
+
                 if(Users.RegisterUser(u))
                 {
-                    Login.main(null);
-                    frame.dispose();
+                    OTP.main(emailTxtFld.getText());
+                    while(!(OTP.otpI)){}
+                    if(OTP.otpC) {
+                        //new register
+                        Login.main(null);
+                        frame.dispose();
+                    }
+                    else {
+                        //popup otp errato
+                    }
                 }
             } catch (IOException | InterruptedException | IllegalBlockSizeException | NoSuchPaddingException |
                      BadPaddingException | NoSuchAlgorithmException | InvalidKeyException ex) {
