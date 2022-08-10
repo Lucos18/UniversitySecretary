@@ -73,7 +73,13 @@ public class Signup {
                 if(passwordTxtFld.isValid())
                     u.setPassword(String.valueOf(passwordTxtFld.getPassword()));
                 try {
-                    Users.RegisterUser(u);
+                    OTP.main(emailTxtFld.getText());
+                    while(!(OTP.otp)){}
+                    if(Users.RegisterUser(u));
+                    {
+                        Login.main(null);
+                        frame.dispose();
+                    }
                 } catch (IOException | InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }

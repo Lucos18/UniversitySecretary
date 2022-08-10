@@ -1,27 +1,24 @@
 package FrontEnd;
-import Users.*;
-import SendMail.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ForgotPsw {
+public class ChangePsw {
     static JFrame frame;
-    private JPanel signupPanel;
+    private JPanel ChgPswPanel;
     private JTextField emailTxtFld;
-    private JButton SendMButton;
+    private JPasswordField passwordTxtFld;
+    private JButton changePswButton;
     private JPanel mainPanel;
 
-    public ForgotPsw() {
-        SendMButton.addActionListener(new ActionListener() {
+    public ChangePsw() {
+        changePswButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(Users.checkEmailValidation(emailTxtFld.getText())) {
-                    SendMail.sendMail(emailTxtFld.getText(), "ciao", "ciao");
-                    OTP.main(emailTxtFld.getText());
-                    while(!(OTP.otp)){}
-                    ChangePsw.main(null);
+                if(passwordTxtFld.isValid()&&emailTxtFld.isValid())
+                {
+                    //funzione cambia password
                     frame.dispose();
                 }
             }
@@ -30,7 +27,7 @@ public class ForgotPsw {
 
     public static void main(String[] args) {
         frame = new JFrame();
-        frame.setContentPane(new ForgotPsw().mainPanel);
+        frame.setContentPane(new ChangePsw().mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setSize(600, 800);

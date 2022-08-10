@@ -34,6 +34,12 @@ public class Login {
                 frame.dispose();
             }
         });
+        forgotPasswordButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ForgotPsw.main(null);
+            }
+        });
     }
 
     public static void main(String[] args) {
