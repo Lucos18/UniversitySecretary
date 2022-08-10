@@ -1,7 +1,11 @@
 package Users;
 import java.io.*;
 import java.net.InetAddress;
+import java.security.InvalidKeyException;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
+import java.util.Base64;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,6 +15,12 @@ import SendMail.SendMail;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
 
 
 public class Users {
@@ -34,10 +44,15 @@ public class Users {
         this.email = email;
         this.password = password;
     }
+    public Users(String email, String password)
+    {
+        this.email = email;
+        this.password = password;
+    }
     //Function to register a user in the University JSON, with different user information.
-    public static boolean RegisterUser(Users user) throws IOException, InterruptedException {
-        /*String CF = SSN.SSNC(user);
-        user.setCF(CF);*/
+    public static boolean RegisterUser(Users user) throws IOException, InterruptedException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        String CF = SSN.SSNC(user);
+        user.setCF(CF);
         //Define the JSON Object, Array and Parser
         JSONObject jobject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
@@ -64,11 +79,15 @@ public class Users {
             }
         }
         if (userNotExist) {
-
+            //Get encrypted password to add inside the database user
+            String encryptedPassword = encryptPassword(user.getPassword());
             //Adding new information of the user inside the json object
             jobject.put("name", user.getName());
             jobject.put("surname", user.getSurname());
-            jobject.put("password", user.getPassword());
+            jobject.put("password", encryptedPassword);
+            jobject.put("cityBirth", user.getCityB());
+            jobject.put("dateBirth", user.getdateB());
+            jobject.put("sex", user.getSex());
             //Insert the json object inside the jsonArray
             jsonArray.add(jobject);
 
@@ -82,7 +101,8 @@ public class Users {
                 return false;
             }
             System.out.println("Registration completed!");
-            SendMail.sendMail(user.getEmail(), "Benvenuto, " + user.getName(), "Ti sei registrato alla segreteria universitaria");
+            //It will send the email to the registered user
+            SendMail.createOTP(user.getEmail());
             return true;
         } else {
             System.out.println("User already exist!");
@@ -90,7 +110,9 @@ public class Users {
         }
 
     }
-    public static boolean Login(String email, String password) {
+    public static boolean Login(Users user) throws IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        //Get encrypted password to read inside the database user
+        String encryptedPassword = encryptPassword(user.password);
         //Define the JSON Array and Parser
         JSONParser jsonParser = new JSONParser();
         JSONArray userList = new JSONArray();
@@ -100,12 +122,12 @@ public class Users {
             for (int i = 0; i < userList.size(); i++)
             {
                 //Boolean to see if an email and a password has been found inside the JSON array
-                boolean emailFound = ((((JSONObject) userList.get(i)).get("Email").equals(email)));
-                boolean PasswordFound = ((((JSONObject) userList.get(i)).get("password").equals(password)));
+                boolean emailFound = ((((JSONObject) userList.get(i)).get("Email").equals(user.email)));
+                boolean PasswordFound = ((((JSONObject) userList.get(i)).get("password").equals(encryptedPassword)));
                 if (emailFound && PasswordFound)
                 {
-                    SendMail.sendMail(email,"Nuovo accesso effettuato", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName());
-                    System.out.println("Login effettuato zio pera");
+                    //It will send a mail to the user email with the machine info that did the login.
+                    SendMail.sendMail(user.getEmail(), "Nuovo accesso effettuato", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName());
                     return true;
                 }
             }
@@ -118,9 +140,8 @@ public class Users {
     public static String getMachineName(){
         String SystemName = "";
         try {
-            // get system name
+            //It will get the system name and stores it inside the variable "System name"
             SystemName = InetAddress.getLocalHost().getHostName();
-            // SystemName stores the name of the system
         }
         catch (Exception E) {
             System.err.println(E.getMessage());
@@ -133,6 +154,20 @@ public class Users {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+    //Function that ecrypts user password
+    public static String encryptPassword(String password) throws IllegalBlockSizeException, BadPaddingException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        //Declaration of the key that will be used for encryption (Must be a multiple of 16 char)
+        String key = "Bar12345Bar12345";
+        //Specify that will use AES encryption
+        Key aesKey = new SecretKeySpec(key.getBytes(), "AES");
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.ENCRYPT_MODE, aesKey);
+        byte[] encrypted = cipher.doFinal(password.getBytes());
+        Base64.Encoder encoder = Base64.getEncoder();
+        //Will convert the encoded String to a normal String of the encrypted password
+        String encryptedPassword = encoder.encodeToString(encrypted);
+        return encryptedPassword;
     }
     //All getters and setters of Users
     public String getName() {
@@ -159,6 +194,7 @@ public class Users {
     public String getCF(){
         return CF;
     }
+    public boolean getRole() {return this.role;}
     public void setCF(String CF){
         this.CF = CF;
     }
@@ -168,5 +204,7 @@ public class Users {
     public void setEmail(String Email) {
         this.email = Email;
     }
+    public void setRole(boolean Role) { this.role = Role;}
 }
+
 
