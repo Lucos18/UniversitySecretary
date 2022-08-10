@@ -16,10 +16,10 @@ public class ForgotPsw {
             if(Users.checkEmailValidation(emailTxtFld.getText())) {
                 SendMail.createOTP(emailTxtFld.getText());
 
-                OTP.main(emailTxtFld.getText());
+                OTP.init(emailTxtFld.getText());
                 while(!(OTP.otpI)){}
                 if(OTP.otpC) {
-                    ChangePsw.main(null);
+                    ChangePsw.init();
                 frame.dispose();
                 }
                 else
@@ -30,7 +30,7 @@ public class ForgotPsw {
         });
     }
 
-    public static void main(String[] args) {
+    public static void init() {
         frame = new JFrame();
         frame.setContentPane(new ForgotPsw().mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

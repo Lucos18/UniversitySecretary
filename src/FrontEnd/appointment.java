@@ -3,16 +3,19 @@ package FrontEnd;
 import javax.swing.*;
 
 public class appointment {
-    private JPanel signupPanel;
-    private JLabel signupLabel;
-    private JButton appointmentButton;
-    private JButton logoutButton;
-    private JLabel emaiLabel;
-    private JLabel ssnLabel;
-    private JLabel nameLabel;
-    private JLabel surnameLabel;
-    private JLabel birthDLabel;
-    private JLabel birthCLabel;
-    private JLabel sexLabel;
+    static JFrame frame;
+    private JPanel appointmentPanel;
     private JPanel mainPanel;
+    private JTable table1;
+    private JButton appointmentButton;
+    private JButton scheduleAppointmentButton;
+
+    public static void init() {
+        frame = new JFrame();
+        frame.setContentPane(new appointment().mainPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setSize(600, 800);
+        frame.setVisible(true);
+    }
 }

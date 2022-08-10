@@ -75,11 +75,11 @@ public class Signup {
 
                 if(Users.RegisterUser(u))
                 {
-                    OTP.main(emailTxtFld.getText());
+                    OTP.init(emailTxtFld.getText());
                     while(!(OTP.otpI)){}
                     if(OTP.otpC) {
                         //new register
-                        Login.main(null);
+                        Login.init();
                         frame.dispose();
                     }
                     else {
@@ -92,13 +92,13 @@ public class Signup {
             }
         });
         loginButton.addActionListener(e -> {
-            Login.main(null);
+            Login.init();
             frame.dispose();
         });
 
     }
 
-    public static void main(String[] args) {
+    public static void init() {
         frame = new JFrame();
         frame.setContentPane(new Signup().mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

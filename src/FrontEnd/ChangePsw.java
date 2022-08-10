@@ -20,7 +20,7 @@ public class ChangePsw {
         });
     }
 
-    public static void main(String[] args) {
+    public static void init() {
         frame = new JFrame();
         frame.setContentPane(new ChangePsw().mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

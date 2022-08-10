@@ -3,7 +3,7 @@ package FrontEnd;
 import javax.swing.*;
 
 public class scheduleAppointment {
-    private JPanel signupPanel;
+    private JPanel scheduleAppointmentPanel;
     private JLabel signupLabel;
     private JButton SubmitButton;
     private JTextField dateTxtFld;

@@ -26,8 +26,8 @@ public class Login {
                 try {
                     if (Users.Login(u))
                     {
-                        if(u.getRole()) {
-                            //segretary home
+                        if(!u.getRole()) {
+                            studentHome.init(u);
                         }
                         else {
                             //student home
@@ -41,13 +41,13 @@ public class Login {
             }
         });
         signupButton.addActionListener(e -> {
-            Signup.main(null);
+            Signup.init();
             frame.dispose();
         });
-        forgotPasswordButton.addActionListener(e -> ForgotPsw.main(null));
+        forgotPasswordButton.addActionListener(e -> ForgotPsw.init());
     }
 
-    public static void main(String[] args) {
+    public static void init() {
         frame = new JFrame();
         frame.setContentPane(new Login().mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

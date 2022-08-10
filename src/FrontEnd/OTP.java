@@ -27,7 +27,7 @@ public class OTP {
         });
     }
 
-    public static void main(String args) {
+    public static void init(String args) {
         mail=args;
         frame = new JFrame();
         frame.setContentPane(new OTP().mainPanel);
