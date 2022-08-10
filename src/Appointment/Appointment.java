@@ -18,7 +18,7 @@ public class Appointment {
 
         /*Const*/
         static final int maxApp =12;        //max appointment per day
-        static final int dimApp=150;
+        static final int dimApp=150;        //dimension of each appointment
 
         /*Attributes of Appointment */
         String date;    // dd/mm/yyyy
@@ -63,7 +63,7 @@ public class Appointment {
         }
 
         public static String fixStrLen(String Ostr, int len)//done
-                /*Method for inserting "void" character in descrpition field
+                /*Method for inserting "void" character in string appointment field
                     */
         {
             String str= Ostr;
@@ -77,6 +77,21 @@ public class Appointment {
             str = new String(cstr);
             str = str.replace('\0', ch);
             return str;
+        }
+
+        static JSONObject voidingReq(String dateToAdd)
+                                      /*Method for creation of void appointment */
+        {
+            JSONObject voidReq = new JSONObject();
+            Appointment voidApp=new Appointment("*","*","*","*","-11111");
+            voidApp.setStatus(false);
+            voidReq.put("CF", voidApp.CF);
+            voidReq.put("date", dateToAdd);
+            voidReq.put("hour",voidApp.hour);
+            voidReq.put("desc", voidApp.descr);
+            voidReq.put("status",voidApp.status);
+            voidReq.put("id",voidApp.id);
+            return voidReq;
         }
 
         static long srcAppID(String CF,long posk)//done
@@ -117,7 +132,7 @@ public class Appointment {
             JSONArray appDate= new JSONArray();
             try {
                 RandomAccessFile file= new RandomAccessFile("src\\Appointment\\app.json","rw");
-                while ((pos=srcAppID(CF,pos))!=-1)
+                while ((srcAppID(CF,pos))!=-1)
                 {
                     line = file.readLine();
                     JSONObject temp = new JSONObject(line);
@@ -201,7 +216,7 @@ public class Appointment {
                 RandomAccessFile app= new RandomAccessFile("src\\Appointment\\app.json","rw");
                 if(pos==-1) /*if not found, add to index, the position of new date*/
                 {
-                    RandomAccessFile index= null;
+                    RandomAccessFile index;
                     try {
                         index = new RandomAccessFile("src\\Appointment\\IndexApp.json","rw");
                         JSONObject reqIndex = new JSONObject();    //object for request index
@@ -212,15 +227,7 @@ public class Appointment {
                         index.writeBytes(reqIndex.toString());
                         index.writeBytes("\n");
                         index.close();
-                        JSONObject voidReq = new JSONObject();      /*Definition of request with data passed by form*/
-                        Appointment voidApp=new Appointment("*","*","*","*","-11111");
-                        voidApp.setStatus(false);
-                        voidReq.put("CF", voidApp.CF);
-                        voidReq.put("date", reqToApp.date);
-                        voidReq.put("hour",voidApp.hour);
-                        voidReq.put("desc", voidApp.descr);
-                        voidReq.put("status",voidApp.status);
-                        voidReq.put("id",voidApp.id);
+                        JSONObject voidReq = voidingReq(reqToApp.date);
                         app.seek(pos);
                         for(int i=0;i<maxApp;i++)
                         {
@@ -230,8 +237,8 @@ public class Appointment {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-                }
-                long posizione=pos+((long) dimApp *hourToN(reqToApp.hour)); //150 req.length
+                }                                                                   /*if found add the appointment at the correct place based on hour*/
+                long posizione=pos+((long) dimApp *hourToN(reqToApp.hour));
                 app.seek(posizione);
                 String line=app.readLine();
                 if(line!=null) {
@@ -251,9 +258,9 @@ public class Appointment {
             return response;
         }
 
-        public static boolean cancApp(Appointment AppToCanc)//not
-                /*Method to request an appointment
-                    place the request with all data in a Json file,where secretary can approve
+        public static boolean cancApp(Appointment AppToCanc)//done
+                /*Method to delete a requested appointment
+                    search appointment using date and overwrite it
                     */
         {
 
@@ -267,15 +274,19 @@ public class Appointment {
             req.put("status",false);
             req.put("id",AppToCanc.id);
             req.put("pos",pos);
-            if(pos!=-1) {
+            if(pos!=-1) {                       //if pos =-1 the appointment doesn't exist
                 try {
-                    RandomAccessFile file = new RandomAccessFile("src\\Appointment\\app.json", "rw");
-                    file.seek(pos + ((long) req.length() * hourToN(AppToCanc.hour)));
+                    RandomAccessFile file = new RandomAccessFile("src\\Appointment\\app.json", "rw");       /*search appointment and overwrite with a void one*/
+                    long posizione=pos + ((long) dimApp * hourToN(AppToCanc.hour));
+                    file.seek(posizione);
                     String line = file.readLine();
                     JSONObject temp = new JSONObject(line);
-                    if (!(temp.isEmpty() || (!temp.getBoolean("status")))) {
+                    if (!(temp.isEmpty() || (!temp.getBoolean("status")))) {                    //check if it's real appointment to prevent error
                         response = true;
-                        file.writeBytes(req.toString());
+                        file.seek(posizione);
+                        JSONObject voidReq = voidingReq(AppToCanc.date);                            //create void appointment
+                        file.writeBytes(voidReq.toString());
+                        file.writeBytes("\n");
                     } else System.out.println("errore nella cancellazione");
                     file.close();
                 } catch (IOException e) {
@@ -300,11 +311,10 @@ public class Appointment {
 
                 for(int i=0;i<2;i++) {
                     String line;
-                    boolean flag = true;
                     RandomAccessFile fileToCanc = new RandomAccessFile(filename[i], "rw");
                     RandomAccessFile Newfile = new RandomAccessFile(filename[i+2], "rw");
 
-                    while (((line = fileToCanc.readLine()) != null) && flag)        /*search file */ {
+                    while (((line = fileToCanc.readLine()) != null))        /*search file */ {
                         JSONObject temp = new JSONObject(line);
                         Date date = formatter.parse(temp.getString("date"));
                         if (actDate.compareTo(date)>=0)                /*if found rewrite in newfile*/ {

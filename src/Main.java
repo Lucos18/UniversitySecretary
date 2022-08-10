@@ -11,7 +11,9 @@ public class Main {
 
         Appointment app=new Appointment("10/08/2022","09:30","SSSNNNYYMDDCCCCK","0h ciao",id);
 
-        Appointment.delOldApp();
+        Appointment.reqApp(app);
+
+        Appointment.cancApp(app);
 
     }
 }
