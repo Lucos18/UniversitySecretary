@@ -8,8 +8,11 @@ import javax.mail.Authenticator;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import java.util.Properties;
 import java.util.Random;
+
+import javax.mail.Authenticator;
 import javax.mail.*;
 import javax.mail.internet.*;
 
@@ -42,14 +45,13 @@ public class SendMail {
             message.setText(Text);
 
             Transport.send(message);
-
-            System.out.println("Done");
+            System.out.println("Email sent!");
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
     }
-    public static void createOTP(String email){
+    public static String createOTP(String email){
         Random random = new Random();
         //Declaring the possible numbers that can be in the OTP
         String numbers = "0123456789";
@@ -63,12 +65,13 @@ public class SendMail {
                     numbers.charAt(random.nextInt(numbers.length()));
         }
         writeOTP(String.valueOf(OTP), email);
+        return String.valueOf(OTP);
     }
     public static void writeOTP(String OTP, String email){
         JSONObject jobject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         JSONParser jparser = new JSONParser();
-        //Reading the "users.json" file and parsing inside the json Array
+        //Reading the "OTP.json" file and parsing inside the json Array
         try {
             FileReader file = new FileReader("OTP.json");
             jsonArray = (JSONArray) jparser.parse(file);
@@ -85,8 +88,8 @@ public class SendMail {
         //looping inside the jsonArray, checking if the user exist inside the json file by checking the email
         for (int i = 0; i < jsonArray.size(); i++) {
             if ((((JSONObject) jsonArray.get(i)).get("Email").equals(jobject.get("Email")))) {
-                //If the email of user has been found inside the json Array it will set the "userNotExist" variable to false
-
+                //If Email is found inside the "OTP.json" file, it will remove the email object
+                jsonArray.remove(i);
                 break;
             }
         }
@@ -97,13 +100,13 @@ public class SendMail {
         } catch (Exception ex) {
             System.out.println("Generic Error!");
         }
-        SendMail.sendMail(email, "Il tuo codice OTP ", "Per completare la registrazione inserisci il seguente OTP: " + OTP);
     }
     public static Boolean readOTP(String email, String OTP){
         JSONParser jsonParser = new JSONParser();
         JSONArray OTPList = new JSONArray();
+        //Read JSON file "OTP.json" and paste all the content inside the JSON array
         try (FileReader reader = new FileReader("OTP.json")) {
-            //Read JSON file "users.json" and paste all the content inside the JSON array
+
             OTPList = (JSONArray) jsonParser.parse(reader);
             for (int i = 0; i < OTPList.size(); i++)
             {
@@ -112,7 +115,7 @@ public class SendMail {
                 boolean OTPFound = ((((JSONObject) OTPList.get(i)).get("OTP").equals(OTP)));
                 if (emailFound && OTPFound)
                 {
-                    //It will send a mail to the user email with the machine info that did the login.
+                    //It will return true if email and OTP have been found
                     return true;
                 }
             }

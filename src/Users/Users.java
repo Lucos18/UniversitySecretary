@@ -1,17 +1,16 @@
 package Users;
+import SSN.SSN;
+import SendMail.SendMail;
+
 import java.io.*;
 import java.net.InetAddress;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
-import java.text.ParseException;
 import java.util.Base64;
-import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import SSN.SSN;
-import SendMail.SendMail;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -81,28 +80,10 @@ public class Users {
         if (userNotExist) {
             //Get encrypted password to add inside the database user
             String encryptedPassword = encryptPassword(user.getPassword());
-            //Adding new information of the user inside the json object
-            jobject.put("name", user.getName());
-            jobject.put("surname", user.getSurname());
-            jobject.put("password", encryptedPassword);
-            jobject.put("cityBirth", user.getCityB());
-            jobject.put("dateBirth", user.getdateB());
-            jobject.put("sex", user.getSex());
-            //Insert the json object inside the jsonArray
-            jsonArray.add(jobject);
-
-            //Write the jsonArray with all the user information inside the "users.json" file
-            try {
-                FileWriter file = new FileWriter("users.json");
-                file.write(jsonArray.toJSONString());
-                file.close();
-            } catch (Exception ex) {
-                System.out.println("Generic Error!");
-                return false;
-            }
-            System.out.println("Registration completed!");
+            user.setPassword(encryptedPassword);
             //It will send the email to the registered user
-            SendMail.createOTP(user.getEmail());
+            String OTPgenerated = SendMail.createOTP(user.getEmail());
+            SendMail.sendMail(user.getEmail(), "Il tuo codice OTP ", "Per completare la registrazione inserisci il seguente OTP: " + OTPgenerated);
             return true;
         } else {
             System.out.println("User already exist!");
@@ -126,8 +107,10 @@ public class Users {
                 boolean PasswordFound = ((((JSONObject) userList.get(i)).get("password").equals(encryptedPassword)));
                 if (emailFound && PasswordFound)
                 {
+
+                    SendMail.sendMail(user.getEmail(), "Nuovo tentativo di accesso", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName() + "\nSe sei tu, inserisci il seguente OTP per completare l'accesso: " + SendMail.createOTP(user.email));
                     //It will send a mail to the user email with the machine info that did the login.
-                    SendMail.sendMail(user.getEmail(), "Nuovo accesso effettuato", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName());
+                    //SendMail.sendMail(user.getEmail(), "Nuovo accesso effettuato", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName());
                     return true;
                 }
             }
@@ -166,8 +149,36 @@ public class Users {
         byte[] encrypted = cipher.doFinal(password.getBytes());
         Base64.Encoder encoder = Base64.getEncoder();
         //Will convert the encoded String to a normal String of the encrypted password
-        String encryptedPassword = encoder.encodeToString(encrypted);
-        return encryptedPassword;
+        return encoder.encodeToString(encrypted);
+    }
+    public static Boolean confirmOtpRegister(Users user, String email, String OTP){
+        //If exists email and OTP inside the "OTP.json" file then it will create the JSON Object with user information
+        if (SendMail.readOTP(email,OTP))
+        {
+            JSONObject jobject = new JSONObject();
+            JSONArray jsonArray = new JSONArray();
+            jobject.put("Email", user.getEmail());
+            jobject.put("CF", user.getCF());
+            jobject.put("name", user.getName());
+            jobject.put("surname", user.getSurname());
+            jobject.put("password", user.getPassword());
+            jobject.put("cityBirth", user.getCityB());
+            jobject.put("dateBirth", user.getdateB());
+            jobject.put("sex", user.getSex());
+            jsonArray.add(jobject);
+            //It will write the jsonArray inside the users.json file, so it can be considered as a registered user
+            try {
+                FileWriter file = new FileWriter("users.json");
+                file.write(jsonArray.toJSONString());
+                file.close();
+            } catch (Exception ex) {
+                System.out.println("Generic Error!");
+                return false;
+            }
+            System.out.println("Registration completed!");
+            return true;
+        }
+        return false;
     }
     //All getters and setters of Users
     public String getName() {
