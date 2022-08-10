@@ -1,7 +1,12 @@
 package FrontEnd;
 import Users.*;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.swing.*;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 public class Login {
     static JFrame frame;
@@ -17,14 +22,21 @@ public class Login {
         loginButton.addActionListener(e -> {
             if(Users.checkEmailValidation(emailTxtFld.getText()) && passwordTxtFld.isValid())
             {
-                Users u =new Users(emailTxtFld.getText(),passwordTxtFld.getPassword());
-                if (Users.Login(u))
-                {
-                    if(u.getRole())
-                        //segretary home
-                    else
-                        //student home
-                    frame.dispose();
+                Users u =new Users(emailTxtFld.getText(),String.valueOf(passwordTxtFld.getPassword()));
+                try {
+                    if (Users.Login(u))
+                    {
+                        if(u.getRole()) {
+                            //segretary home
+                        }
+                        else {
+                            //student home
+                        }
+                        frame.dispose();
+                    }
+                } catch (IllegalBlockSizeException | NoSuchPaddingException | BadPaddingException |
+                         NoSuchAlgorithmException | InvalidKeyException ex) {
+                    throw new RuntimeException(ex);
                 }
             }
         });
