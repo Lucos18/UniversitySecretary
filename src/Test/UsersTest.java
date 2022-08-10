@@ -30,8 +30,8 @@ class UsersTest {
     @Test
     @DisplayName("Login user1-user2")
     void loginUser() throws IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
-        assertEquals(true, Users.Login(user1.getEmail(),user1.getPassword()));
-        assertEquals(false, Users.Login(user2.getEmail(),user2.getPassword()));
+        assertEquals(true, Users.Login(user1));
+        assertEquals(false, Users.Login(user2));
     }
     @Test
     @DisplayName("Check different emails")

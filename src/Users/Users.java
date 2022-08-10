@@ -102,7 +102,8 @@ public class Users {
             }
             System.out.println("Registration completed!");
             //It will send the email to the registered user
-            SendMail.createOTP(user.getEmail());
+            String OTPgenerated = SendMail.createOTP(user.getEmail());
+            SendMail.sendMail(user.getEmail(), "Il tuo codice OTP ", "Per completare la registrazione inserisci il seguente OTP: " + OTPgenerated);
             return true;
         } else {
             System.out.println("User already exist!");
@@ -126,8 +127,10 @@ public class Users {
                 boolean PasswordFound = ((((JSONObject) userList.get(i)).get("password").equals(encryptedPassword)));
                 if (emailFound && PasswordFound)
                 {
+
+                    SendMail.sendMail(user.getEmail(), "Nuovo tentativo di accesso", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName() + "\nSe sei tu, inserisci il seguente OTP per completare l'accesso: " + SendMail.createOTP(user.email));
                     //It will send a mail to the user email with the machine info that did the login.
-                    SendMail.sendMail(user.getEmail(), "Nuovo accesso effettuato", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName());
+                    //SendMail.sendMail(user.getEmail(), "Nuovo accesso effettuato", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName());
                     return true;
                 }
             }

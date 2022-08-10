@@ -41,13 +41,13 @@ public class SendMail {
             message.setSubject(Subject);
             message.setText(Text);
             Transport.send(message);
-            System.out.println("Done");
+            System.out.println("Email sent!");
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
     }
-    public static void createOTP(String email){
+    public static String createOTP(String email){
         Random random = new Random();
         //Declaring the possible numbers that can be in the OTP
         String numbers = "0123456789";
@@ -61,6 +61,7 @@ public class SendMail {
                     numbers.charAt(random.nextInt(numbers.length()));
         }
         writeOTP(String.valueOf(OTP), email);
+        return String.valueOf(OTP);
     }
     public static void writeOTP(String OTP, String email){
         JSONObject jobject = new JSONObject();
@@ -84,7 +85,7 @@ public class SendMail {
         for (int i = 0; i < jsonArray.size(); i++) {
             if ((((JSONObject) jsonArray.get(i)).get("Email").equals(jobject.get("Email")))) {
                 //If the email of user has been found inside the json Array it will set the "userNotExist" variable to false
-
+                jsonArray.remove(i);
                 break;
             }
         }
@@ -95,7 +96,7 @@ public class SendMail {
         } catch (Exception ex) {
             System.out.println("Generic Error!");
         }
-        SendMail.sendMail(email, "Il tuo codice OTP ", "Per completare la registrazione inserisci il seguente OTP: " + OTP);
+
     }
     public static Boolean readOTP(String email, String OTP){
         JSONParser jsonParser = new JSONParser();
