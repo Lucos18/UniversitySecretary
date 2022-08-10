@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1b972adc-4acd-4c63-b9d0-a9d975129f1b" name="Changes" comment="warnings elimination">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="1b972adc-4acd-4c63-b9d0-a9d975129f1b" name="Changes" comment="Merge with frontEnd">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,6 +81,7 @@
       <recent name="" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\raffa\IdeaProjects\UniversitySecretary\.idea" />
       <recent name="C:\Users\Luigi\Desktop\Progetti IntelliJ\UniversitySecretary" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
@@ -143,7 +144,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660136672356</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Merge with frontEnd">
+      <created>1660145442377</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1660145442377</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -197,6 +205,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="moved /out" />
     <MESSAGE value="Modified styles and added comments in SSN" />
-    <option name="LAST_COMMIT_MESSAGE" value="Modified styles and added comments in SSN" />
+    <MESSAGE value="Merge with frontEnd" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge with frontEnd" />
   </component>
 </project>
