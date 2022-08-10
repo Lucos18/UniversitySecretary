@@ -110,9 +110,9 @@ public class Users {
         }
 
     }
-    public static boolean Login(String email, String password) throws IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+    public static boolean Login(Users user) throws IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
         //Get encrypted password to read inside the database user
-        String encryptedPassword = encryptPassword(password);
+        String encryptedPassword = encryptPassword(user.password);
         //Define the JSON Array and Parser
         JSONParser jsonParser = new JSONParser();
         JSONArray userList = new JSONArray();
@@ -122,12 +122,12 @@ public class Users {
             for (int i = 0; i < userList.size(); i++)
             {
                 //Boolean to see if an email and a password has been found inside the JSON array
-                boolean emailFound = ((((JSONObject) userList.get(i)).get("Email").equals(email)));
+                boolean emailFound = ((((JSONObject) userList.get(i)).get("Email").equals(user.email)));
                 boolean PasswordFound = ((((JSONObject) userList.get(i)).get("password").equals(encryptedPassword)));
                 if (emailFound && PasswordFound)
                 {
                     //It will send a mail to the user email with the machine info that did the login.
-                    SendMail.sendMail(email,"Nuovo accesso effettuato", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName());
+                    SendMail.sendMail(user.getEmail(), "Nuovo accesso effettuato", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName());
                     return true;
                 }
             }
