@@ -18,22 +18,22 @@ public class Appointment {
 
         /*Const*/
         static final int maxApp =12;        //max appointment per day
+        static final int dimApp=150;
 
         /*Attributes of Appointment */
         String date;    // dd/mm/yyyy
         String hour;    // hh:mm
         String CF;
         String descr;   //short description max 50 ch
-        int id;
+        String id;      //max 6 char
         boolean status=true; //if true appointment was approved
-        public Appointment(String date, String hour, String CF, String descr,int ramID)
+        public Appointment(String date, String hour, String CF, String descr,String ramID)
         {
-            this.date=date;
-            this.hour=hour;
-            this.CF=CF;
-            this.descr=descr;
-            this.id=ramID;
-
+            this.date=fixStrLen(date,10);
+            this.hour=fixStrLen(hour,5);
+            this.CF=fixStrLen(CF,16);
+            this.descr=fixStrLen(descr,50);
+            this.id=fixStrLen(ramID,6);
         }
 
         public boolean getStatus(){return status;}
@@ -42,14 +42,14 @@ public class Appointment {
 
         /*Methods*/
 
-        public static int genID()
+        public static String  genID()//not
         {
-            int ID;
-            ID=1;
+            String ID;
+            ID="1";
             return ID;
         }
 
-        static short hourToN(String hour)
+        static short hourToN(String hour)//done
                 /*Method for N of appointment
                     return the cardinal number of the appointment based on hour
                     */
@@ -62,24 +62,24 @@ public class Appointment {
             return n;
         }
 
-        public static String fixDescLen(String description)
+        public static String fixStrLen(String Ostr, int len)//done
                 /*Method for inserting "void" character in descrpition field
                     */
         {
-            String desc= description;
-            char[] cdesc=new char[50];
+            String str= Ostr;
+            char[] cstr=new char[len];
             char ch='*';
 
-            for (int i = 0; i < desc.length(); i++) {
-                cdesc[i] = desc.charAt(i);
+            for (int i = 0; i < str.length(); i++) {
+                cstr[i] = str.charAt(i);
             }
 
-            desc = new String(cdesc);
-            desc = desc.replace('\0', ch);
-            return desc;
+            str = new String(cstr);
+            str = str.replace('\0', ch);
+            return str;
         }
 
-        static long srcAppID(String ID)
+        static long srcAppID(String CF,long posk)//done
                                 /*Method for appointment search by cf
                                     return the pos of the block of appointment of specified date
                                     */
@@ -89,13 +89,14 @@ public class Appointment {
             try {
                 String line;
                 boolean flag = true;
-                RandomAccessFile file = new RandomAccessFile("src\\Appointment\\IndexApp.json", "rw");
-
-                while (((line = file.readLine()) != null) && flag)        /*Search in index file position of requested cf*/ {
+                RandomAccessFile file = new RandomAccessFile("src\\Appointment\\app.json", "rw");
+                file.seek(posk);
+                while (((line = file.readLine()) != null) && flag)        /*Search in index file position of requested cf*/
+                {
                     JSONObject temp = new JSONObject(line);
-                    String id = temp.getString("id");
-                    if (id.equalsIgnoreCase(ID))                /*if found, set pos value and exit cicle*/ {
-                        pos = Long.parseLong(temp.getString("pos"));
+                    String cf = temp.getString("CF");
+                    if (cf.equalsIgnoreCase(CF))                /*if found, set pos value and exit cicle*/ {
+                        pos =  file.getFilePointer()-dimApp;
                         flag = false;
                     }
                 }
@@ -106,22 +107,22 @@ public class Appointment {
             return pos;
         }
 
-        static JSONArray printAppName(String ID)
+        public static JSONArray printAppName(String CF)//done
                             /*Method print all appointment whith specific name
                                 return a jason array with all appointment with that name
                                 */
         {
             String line;
-            long pos;
+            long pos=0;
             JSONArray appDate= new JSONArray();
             try {
                 RandomAccessFile file= new RandomAccessFile("src\\Appointment\\app.json","rw");
-                while ((pos=srcAppID(ID))!=-1)
+                while ((pos=srcAppID(CF,pos))!=-1)
                 {
                     line = file.readLine();
-                    file.seek(pos);
                     JSONObject temp = new JSONObject(line);
                     appDate.put(temp);
+                    pos =  file.getFilePointer();
                 }
                 file.close();
             } catch (IOException e) {
@@ -130,7 +131,7 @@ public class Appointment {
             return appDate;
         }
 
-        static JSONArray printAppDate(String date)
+        public static JSONArray printAppDate(String date)//done
                  /*Method print all appointment in a specified date
                     return a jason array with all appointment for that date
                     */
@@ -153,7 +154,7 @@ public class Appointment {
             return appDate;
         }
 
-        private static Long srcAppDate(String dateS)
+        private static Long srcAppDate(String dateS)//done
                 /*Method for appointment search by date
                     return the pos of the block of appointment of specified date
                     */
@@ -164,7 +165,7 @@ public class Appointment {
                 String line;
                 boolean flag=true;
                 RandomAccessFile file= new RandomAccessFile("src\\Appointment\\IndexApp.json","r");
-                System.out.println(file.readLine());
+                file.seek(0);
                 while(((line=file.readLine())!=null) && flag)        /*Search in index file position of requested data*/
                 {
                     JSONObject temp = new JSONObject(line);
@@ -181,7 +182,7 @@ public class Appointment {
             return pos;
         }
 
-        public static boolean reqApp(Appointment reqToApp)
+        public static boolean reqApp(Appointment reqToApp)//done
                     /*Method to request an appointment
                     place the request with all data in a Json file,where secretary can approve
                     */
@@ -211,24 +212,38 @@ public class Appointment {
                         index.writeBytes(reqIndex.toString());
                         index.writeBytes("\n");
                         index.close();
+                        JSONObject voidReq = new JSONObject();      /*Definition of request with data passed by form*/
+                        Appointment voidApp=new Appointment("*","*","*","*","-11111");
+                        voidApp.setStatus(false);
+                        voidReq.put("CF", voidApp.CF);
+                        voidReq.put("date", reqToApp.date);
+                        voidReq.put("hour",voidApp.hour);
+                        voidReq.put("desc", voidApp.descr);
+                        voidReq.put("status",voidApp.status);
+                        voidReq.put("id",voidApp.id);
+                        app.seek(pos);
+                        for(int i=0;i<maxApp;i++)
+                        {
+                            app.writeBytes(voidReq.toString());
+                            app.writeBytes("\n");
+                        }
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 }
-                app.seek(pos+((long) req.length() *hourToN(reqToApp.hour)));
+                long posizione=pos+((long) dimApp *hourToN(reqToApp.hour)); //150 req.length
+                app.seek(posizione);
                 String line=app.readLine();
                 if(line!=null) {
                     JSONObject temp = new JSONObject(line);
                     if (temp.isEmpty() || (!temp.getBoolean("status"))) {
                         response = true;
+                        app.seek(posizione);
                         app.writeBytes(req.toString());
                     }
                     else System.out.println("data già inserita");
                 }
-                else{
-                    response = true;
-                    app.writeBytes(req.toString());
-                }
+                else System.out.println("ERRORE");
                 app.close();
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -236,7 +251,7 @@ public class Appointment {
             return response;
         }
 
-        public static boolean cancApp(Appointment AppToCanc)
+        public static boolean cancApp(Appointment AppToCanc)//not
                 /*Method to request an appointment
                     place the request with all data in a Json file,where secretary can approve
                     */
@@ -271,7 +286,7 @@ public class Appointment {
             return response;
         }
 
-        public static void delOldApp()
+        public static void delOldApp()//not
                  /*Method to delete all old appointment
                    write in a new file all appointment by this date and above, then change the name and delete old files
                     */
