@@ -81,26 +81,7 @@ public class Users {
         if (userNotExist) {
             //Get encrypted password to add inside the database user
             String encryptedPassword = encryptPassword(user.getPassword());
-            //Adding new information of the user inside the json object
-            jobject.put("name", user.getName());
-            jobject.put("surname", user.getSurname());
-            jobject.put("password", encryptedPassword);
-            jobject.put("cityBirth", user.getCityB());
-            jobject.put("dateBirth", user.getdateB());
-            jobject.put("sex", user.getSex());
-            //Insert the json object inside the jsonArray
-            jsonArray.add(jobject);
-
-            //Write the jsonArray with all the user information inside the "users.json" file
-            try {
-                FileWriter file = new FileWriter("users.json");
-                file.write(jsonArray.toJSONString());
-                file.close();
-            } catch (Exception ex) {
-                System.out.println("Generic Error!");
-                return false;
-            }
-            System.out.println("Registration completed!");
+            user.setPassword(encryptedPassword);
             //It will send the email to the registered user
             String OTPgenerated = SendMail.createOTP(user.getEmail());
             SendMail.sendMail(user.getEmail(), "Il tuo codice OTP ", "Per completare la registrazione inserisci il seguente OTP: " + OTPgenerated);
@@ -171,6 +152,33 @@ public class Users {
         //Will convert the encoded String to a normal String of the encrypted password
         String encryptedPassword = encoder.encodeToString(encrypted);
         return encryptedPassword;
+    }
+    public static Boolean confirmOtpRegister(Users user, String email, String OTP){
+        if (SendMail.readOTP(email,OTP))
+        {
+            JSONObject jobject = new JSONObject();
+            JSONArray jsonArray = new JSONArray();
+            jobject.put("Email", user.getEmail());
+            jobject.put("CF", user.getCF());
+            jobject.put("name", user.getName());
+            jobject.put("surname", user.getSurname());
+            jobject.put("password", user.getPassword());
+            jobject.put("cityBirth", user.getCityB());
+            jobject.put("dateBirth", user.getdateB());
+            jobject.put("sex", user.getSex());
+            jsonArray.add(jobject);
+            try {
+                FileWriter file = new FileWriter("users.json");
+                file.write(jsonArray.toJSONString());
+                file.close();
+            } catch (Exception ex) {
+                System.out.println("Generic Error!");
+                return false;
+            }
+            System.out.println("Registration completed!");
+            return true;
+        }
+        return false;
     }
     //All getters and setters of Users
     public String getName() {
