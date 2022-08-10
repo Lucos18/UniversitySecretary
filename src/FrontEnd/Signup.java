@@ -3,12 +3,17 @@ package FrontEnd;
 import Users.*;
 import SSN.*;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -74,7 +79,8 @@ public class Signup {
                     Login.main(null);
                     frame.dispose();
                 }
-            } catch (IOException | InterruptedException ex) {
+            } catch (IOException | InterruptedException | IllegalBlockSizeException | NoSuchPaddingException |
+                     BadPaddingException | NoSuchAlgorithmException | InvalidKeyException ex) {
                 throw new RuntimeException(ex);
             }
         });
