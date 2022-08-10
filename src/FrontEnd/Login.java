@@ -2,8 +2,6 @@ package FrontEnd;
 import Users.*;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Login {
     static JFrame frame;
@@ -16,30 +14,19 @@ public class Login {
     private JButton forgotPasswordButton;
 
     public Login() {
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(Users.checkEmailValidation(emailTxtFld.getText()) && passwordTxtFld.isValid())
-                    if(Users.Login(emailTxtFld.getText(), String.valueOf(passwordTxtFld.getPassword())))
-                    {
-                        //open home
-                        frame.dispose();
-                    }
-            }
+        loginButton.addActionListener(e -> {
+            if(Users.checkEmailValidation(emailTxtFld.getText()) && passwordTxtFld.isValid())
+                if(Users.Login(emailTxtFld.getText(), String.valueOf(passwordTxtFld.getPassword())))
+                {
+                    //open home
+                    frame.dispose();
+                }
         });
-        signupButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Signup.main(null);
-                frame.dispose();
-            }
+        signupButton.addActionListener(e -> {
+            Signup.main(null);
+            frame.dispose();
         });
-        forgotPasswordButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ForgotPsw.main(null);
-            }
-        });
+        forgotPasswordButton.addActionListener(e -> ForgotPsw.main(null));
     }
 
     public static void main(String[] args) {

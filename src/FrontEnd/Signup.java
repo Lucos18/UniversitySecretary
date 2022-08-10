@@ -2,8 +2,6 @@ package FrontEnd;
 
 import Users.*;
 import SSN.*;
-import FrontEnd.*;
-import com.sun.jdi.PathSearchingVirtualMachine;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -11,13 +9,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.io.IOException;
-import java.nio.charset.MalformedInputException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class Signup {
     static Users u;
-    static String date;
     private JPanel signupPanel;
     private JLabel signupLabel;
     private JTextField emailTxtFld;
@@ -64,33 +60,27 @@ public class Signup {
         });
 
 
-        signupButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                u.setCF(SSNTxtFld.getText());
-                if(emailTxtFld.isValid()&& Users.checkEmailValidation(emailTxtFld.getText()))
-                    u.setEmail(emailTxtFld.getText());
-                if(passwordTxtFld.isValid())
-                    u.setPassword(String.valueOf(passwordTxtFld.getPassword()));
-                try {
-                    OTP.main(emailTxtFld.getText());
-                    while(!(OTP.otp)){}
-                    if(Users.RegisterUser(u));
-                    {
-                        Login.main(null);
-                        frame.dispose();
-                    }
-                } catch (IOException | InterruptedException ex) {
-                    throw new RuntimeException(ex);
+        signupButton.addActionListener(e -> {
+            u.setCF(SSNTxtFld.getText());
+            if(emailTxtFld.isValid()&& Users.checkEmailValidation(emailTxtFld.getText()))
+                u.setEmail(emailTxtFld.getText());
+            if(passwordTxtFld.isValid())
+                u.setPassword(String.valueOf(passwordTxtFld.getPassword()));
+            try {
+                OTP.main(emailTxtFld.getText());
+                while(!(OTP.otp)){}
+                if(Users.RegisterUser(u))
+                {
+                    Login.main(null);
+                    frame.dispose();
                 }
+            } catch (IOException | InterruptedException ex) {
+                throw new RuntimeException(ex);
             }
         });
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Login.main(null);
-                frame.dispose();
-            }
+        loginButton.addActionListener(e -> {
+            Login.main(null);
+            frame.dispose();
         });
 
     }

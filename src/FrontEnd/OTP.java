@@ -1,19 +1,6 @@
 package FrontEnd;
 
-import Users.*;
-import SSN.*;
-import FrontEnd.*;
-import com.sun.jdi.PathSearchingVirtualMachine;
-
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.io.IOException;
-import java.nio.charset.MalformedInputException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 
 public class OTP {
@@ -26,13 +13,10 @@ public class OTP {
     static String mail;
 
     public OTP() {
-        sendOTPButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(otpTxtFld.isValid()) {
-                    //chiamata funzione otp
-                    frame.dispose();
-                }
+        sendOTPButton.addActionListener(e -> {
+            if(otpTxtFld.isValid()) {
+                //chiamata funzione otp
+                frame.dispose();
             }
         });
     }

@@ -3,8 +3,6 @@ import Users.*;
 import SendMail.*;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ForgotPsw {
     static JFrame frame;
@@ -14,16 +12,13 @@ public class ForgotPsw {
     private JPanel mainPanel;
 
     public ForgotPsw() {
-        SendMButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(Users.checkEmailValidation(emailTxtFld.getText())) {
-                    SendMail.sendMail(emailTxtFld.getText(), "ciao", "ciao");
-                    OTP.main(emailTxtFld.getText());
-                    while(!(OTP.otp)){}
-                    ChangePsw.main(null);
-                    frame.dispose();
-                }
+        SendMButton.addActionListener(e -> {
+            if(Users.checkEmailValidation(emailTxtFld.getText())) {
+                SendMail.sendMail(emailTxtFld.getText(), "ciao", "ciao");
+                OTP.main(emailTxtFld.getText());
+                while(!(OTP.otp)){}
+                ChangePsw.main(null);
+                frame.dispose();
             }
         });
     }

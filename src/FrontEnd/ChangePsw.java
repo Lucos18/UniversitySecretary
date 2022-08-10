@@ -1,8 +1,6 @@
 package FrontEnd;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ChangePsw {
     static JFrame frame;
@@ -13,14 +11,11 @@ public class ChangePsw {
     private JPanel mainPanel;
 
     public ChangePsw() {
-        changePswButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(passwordTxtFld.isValid()&&emailTxtFld.isValid())
-                {
-                    //funzione cambia password
-                    frame.dispose();
-                }
+        changePswButton.addActionListener(e -> {
+            if(passwordTxtFld.isValid()&&emailTxtFld.isValid())
+            {
+                //funzione cambia password
+                frame.dispose();
             }
         });
     }
