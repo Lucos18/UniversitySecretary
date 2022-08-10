@@ -16,11 +16,17 @@ public class Login {
     public Login() {
         loginButton.addActionListener(e -> {
             if(Users.checkEmailValidation(emailTxtFld.getText()) && passwordTxtFld.isValid())
-                if(Users.Login(emailTxtFld.getText(), String.valueOf(passwordTxtFld.getPassword())))
+            {
+                Users u =new Users(emailTxtFld.getText(),passwordTxtFld.getPassword());
+                if (Users.Login(u))
                 {
-                    //open home
+                    if(u.getRole())
+                        //segretary home
+                    else
+                        //student home
                     frame.dispose();
                 }
+            }
         });
         signupButton.addActionListener(e -> {
             Signup.main(null);

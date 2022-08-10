@@ -179,8 +179,8 @@
             <properties>
               <model>
                 <item value="**"/>
-                <item value="male"/>
-                <item value="female"/>
+                <item value="M"/>
+                <item value="F"/>
               </model>
             </properties>
           </component>
