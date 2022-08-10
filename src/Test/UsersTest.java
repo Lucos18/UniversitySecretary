@@ -5,7 +5,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,13 +23,13 @@ class UsersTest {
     }
     @Test
     @DisplayName("Registrazione user1")
-    void registerUser() throws IOException, InterruptedException {
+    void registerUser() throws IOException, InterruptedException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
         assertEquals(true, Users.RegisterUser(user1));
     }
 
     @Test
     @DisplayName("Login user1-user2")
-    void loginUser() {
+    void loginUser() throws IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
         assertEquals(true, Users.Login(user1.getEmail(),user1.getPassword()));
         assertEquals(false, Users.Login(user2.getEmail(),user2.getPassword()));
     }

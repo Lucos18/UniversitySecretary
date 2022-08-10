@@ -1,6 +1,5 @@
 package SendMail;
 
-
 import javax.mail.Authenticator;
 import java.util.Properties;
 import javax.mail.*;
@@ -33,9 +32,7 @@ public class SendMail {
                     InternetAddress.parse(email));
             message.setSubject(Subject);
             message.setText(Text);
-
             Transport.send(message);
-
             System.out.println("Done");
 
         } catch (MessagingException e) {
