@@ -7,7 +7,7 @@ import java.awt.event.*;
 
 public class studentHome {
     static JFrame frame;
-    static Users st ;
+    static public Users st ;
     private JPanel homePanel;
     private JLabel signupLabel;
     private JButton appointmentButton;
@@ -25,19 +25,13 @@ public class studentHome {
 
 
 
-        logoutButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Login.init();
-                frame.dispose();
-            }
+        logoutButton.addActionListener(e -> {
+            Login.init();
+            frame.dispose();
         });
-        appointmentButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                appointment.init();//passa la mail
-                frame.dispose();
-            }
+        appointmentButton.addActionListener(e -> {
+            appointment.init(st);//passa la mail
+            frame.dispose();
         });
 
         frame.addComponentListener(new ComponentAdapter() {
