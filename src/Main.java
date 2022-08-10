@@ -17,7 +17,7 @@ public class Main {
         //SendMail.sendMail("lucabuonpane3@gmail.com");
         Users user = new Users("PAOLO", "HOLO", "23/01/2004", "SANTA MARIA CAPUA VETERE", "M", "bboh204@gmail.com", "CIAO");
         //Users.Login(user);
-        Users.RegisterUser(user);
+        //Users.RegisterUser(user);
         //if (Users.checkEmailValidation(user.getEmail())) System.out.println("Valid mail");
         //else System.out.println("Invalid mail");
         //Users.RegisterUser(user);
