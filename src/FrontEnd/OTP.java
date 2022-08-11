@@ -1,6 +1,7 @@
 package FrontEnd;
 
 import SendMail.SendMail;
+import Users.*;
 
 import javax.swing.*;
 
@@ -15,23 +16,42 @@ public class OTP {
     private JPanel mainPanel;
     static String mail;
     static boolean k;
+    static Users st;
 
     public OTP() {
         sendOTPButton.addActionListener(e -> {
             if(otpTxtFld.isValid()) {
-                otpI=true;
-                if(SendMail.readOTP(mail,otpTxtFld.getText())) {
-                    otpC = true;
+                otpI = true;
+                if (st.getName().length()==0)
+                {
+                    if(SendMail.readOTP(mail,otpTxtFld.getText())) {
+                        otpC = true;
+                        Login.init();
+                        JOptionPane.showMessageDialog(null, "Entered OTP is valid!");
+                        frame.dispose();
+                    }
                 }
-                Login.init();
-                frame.dispose();
+                else
+                {
+                    if(Users.confirmOtpRegister(st,mail,otpTxtFld.getText()))
+                    {
+                        otpC = true;
+                        Login.init();
+                        JOptionPane.showMessageDialog(null, "Entered OTP is valid!");
+                        frame.dispose();
+                    }
+                }
+
             }
+            JOptionPane.showMessageDialog(null, "Entered OTP is not valid!");
+
         });
     }
 
-    public static void init(String args, boolean f) {
+    public static void init(String args, boolean f, Users u) {
         mail=args;
         k=f;
+        st=u;
         frame = new JFrame();
         frame.setContentPane(new OTP().mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

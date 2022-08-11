@@ -42,5 +42,16 @@
     "sex": "M",
     "name": "NOTPEZZO",
     "dateBirth": "23\/01\/2004"
+  },
+  {
+    "password": "69hbU45MHZtAQO0rPG5Ttw==",
+    "Email": "raffaelediapro@gmail.com",
+    "CF": "DSPRFL03S06A512P",
+    "role": false,
+    "surname": "Diaspro",
+    "cityBirth": "Aversa",
+    "sex": "javax.swing.JComboBox[,124,332,368x25,layout=javax.swing.plaf.metal.MetalComboBoxUI$MetalComboBoxLayoutManager,alignmentX=0.0,alignmentY=0.0,border=,flags=328,maximumSize=,minimumSize=,preferredSize=,isEditable=false,lightWeightPopupEnabled=true,maximumRowCount=8,selectedItemReminder=M]",
+    "name": "Raffaele",
+    "dateBirth": "06\/11\/2003"
   }
 ]
