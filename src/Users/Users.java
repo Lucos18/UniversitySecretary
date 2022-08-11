@@ -55,17 +55,7 @@ public class Users {
         user.setCF(CF);
         //Define the JSON Object, Array and Parser
         JSONObject jobject = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
-        JSONParser jparser = new JSONParser();
-        //Reading the "users.json" file and parsing inside the json Array
-        try {
-            FileReader file = new FileReader("users.json");
-            jsonArray = (JSONArray) jparser.parse(file);
-
-        } catch (Exception ex) {
-            System.out.println("Generic Error!");
-            return false;
-        }
+        JSONArray jsonArray = Users.readFile("users.json");
         //Insert user email information inside the json object
         jobject.put("Email", user.getEmail());
         jobject.put("CF", user.getCF());
@@ -95,28 +85,20 @@ public class Users {
     public static boolean Login(Users user) throws IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
         //Get encrypted password to read inside the database user
         String encryptedPassword = encryptPassword(user.password);
-        //Define the JSON Array and Parser
-        JSONParser jsonParser = new JSONParser();
-        JSONArray userList = new JSONArray();
-        try {
-            FileReader readerUser = new FileReader("users.json");
-            //Read JSON file "users.json" and paste all the content inside the JSON array
-            userList = (JSONArray) jsonParser.parse(readerUser);
-            for (int i = 0; i < userList.size(); i++)
+        //Define the JSON Array by reading through the method
+        JSONArray userList = Users.readFile("users.json");
+        for (int i = 0; i < userList.size(); i++)
+        {
+            //Boolean to see if an email and a password has been found inside the JSON array
+            boolean emailFoundUser = ((((JSONObject) userList.get(i)).get("Email").equals(user.email)));
+            boolean passwordFoundUser = ((((JSONObject) userList.get(i)).get("password").equals(encryptedPassword)));
+            if (emailFoundUser && passwordFoundUser)
             {
-                //Boolean to see if an email and a password has been found inside the JSON array
-                boolean emailFoundUser = ((((JSONObject) userList.get(i)).get("Email").equals(user.email)));
-                boolean passwordFoundUser = ((((JSONObject) userList.get(i)).get("password").equals(encryptedPassword)));
-                if (emailFoundUser && passwordFoundUser)
-                {
 
-                    SendMail.sendMail(user.getEmail(), "Nuovo tentativo di accesso", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName() + "\nSe sei tu, inserisci il seguente OTP per completare l'accesso: " + SendMail.createOTP(user.email));
-                    //It will send a mail to the user email with the machine info that did the login.
-                }
+                SendMail.sendMail(user.getEmail(), "Nuovo tentativo di accesso", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName() + "\nSe sei tu, inserisci il seguente OTP per completare l'accesso: " + SendMail.createOTP(user.email));
+                //It will send a mail to the user email with the machine info that did the login.
+                return true;
             }
-        } catch (IOException | org.json.simple.parser.ParseException e) {
-            e.printStackTrace();
-            return false;
         }
         return false;
     }
@@ -159,16 +141,8 @@ public class Users {
         {
             //Declaring JSON Object, Array and Parser
             JSONObject jobject = new JSONObject();
-            JSONArray jsonArray = new JSONArray();
-            JSONParser jparser = new JSONParser();
             //Reading the file to add inside the json Array
-            try {
-                FileReader file = new FileReader("users.json");
-                jsonArray = (JSONArray) jparser.parse(file);
-
-            } catch (Exception ex) {
-                System.out.println("Generic Error!");
-            }
+            JSONArray jsonArray = Users.readFile("users.json");
             //Add different information of the user inside the object
             jobject.put("Email", user.getEmail());
             jobject.put("CF", user.getCF());
@@ -195,6 +169,18 @@ public class Users {
             return true;
         }
         return false;
+    }
+    public static JSONArray readFile(String directory){
+        JSONParser jparser = new JSONParser();
+        JSONArray jsonArray = new JSONArray();
+        try {
+            FileReader file = new FileReader(directory);
+            jsonArray = (JSONArray) jparser.parse(file);
+
+        } catch (Exception ex) {
+            System.out.println("Generic Error!");
+        }
+        return jsonArray;
     }
     //All getters and setters of Users
     public String getName() {
@@ -231,7 +217,6 @@ public class Users {
     public void setEmail(String Email) {
         this.email = Email;
     }
-    public void setRole(boolean Role) { this.role = Role;}
 }
 
 

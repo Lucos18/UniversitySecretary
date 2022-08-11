@@ -1,17 +1,6 @@
 [
   {
     "password": "DIYuafF80AQj0E6ZvlxFkA==",
-    "Email": "GIANCOMARCIO@GMAIL.COM",
-    "CF": "LLLLCU04A23I234R",
-    "role": false,
-    "surname": "LOLLOLO",
-    "cityBirth": "SANTA MARIA CAPUA VETERE",
-    "sex": "M",
-    "name": "LUCA",
-    "dateBirth": "23\/01\/2004"
-  },
-  {
-    "password": "DIYuafF80AQj0E6ZvlxFkA==",
     "Email": "LUCABUONPANE3@GMAIL.COM",
     "CF": "GGGLCU04A23I234I",
     "role": false,
@@ -30,6 +19,28 @@
     "cityBirth": "SANTA MARIA CAPUA VETERE",
     "sex": "M",
     "name": "LUCOS",
+    "dateBirth": "23\/01\/2004"
+  },
+  {
+    "password": "DIYuafF80AQj0E6ZvlxFkA==",
+    "Email": "GIANCOMARCIO@GMAIL.COM",
+    "CF": "PZZNPZ04A23I234C",
+    "role": false,
+    "surname": "PEZZO",
+    "cityBirth": "SANTA MARIA CAPUA VETERE",
+    "sex": "M",
+    "name": "NOTPEZZO",
+    "dateBirth": "23\/01\/2004"
+  },
+  {
+    "password": "DIYuafF80AQj0E6ZvlxFkA==",
+    "Email": "gigigigig@GMAIL.COM",
+    "CF": "GGGNPZ04A23I234N",
+    "role": false,
+    "surname": "gigiogigig",
+    "cityBirth": "SANTA MARIA CAPUA VETERE",
+    "sex": "M",
+    "name": "NOTPEZZO",
     "dateBirth": "23\/01\/2004"
   }
 ]
