@@ -80,18 +80,21 @@ public class SendMail {
         //Insert user email information inside the json object
         jobject.put("Email", email);
         jobject.put("OTP", OTP);
-        jsonArray.add(jobject);
         //looping inside the jsonArray, checking if the user exist inside the json file by checking the email
-        for (int i = 0; i < jsonArray.size(); i++) {
-            if ((((JSONObject) jsonArray.get(i)).get("Email").equals(jobject.get("Email")))) {
-                //If Email is found inside the "OTP.json" file, it will remove the email object
-                jsonArray.remove(i);
-                break;
+        if (jsonArray.size() == 0) jsonArray.add(jobject);
+        else {
+            for (int i = 0; i < jsonArray.size(); i++) {
+                if (!(((JSONObject) jsonArray.get(i)).get("Email").equals(jobject.get("Email")))) {
+                    //If Email is found inside the "OTP.json" file, it will remove the email object
+                    jsonArray.add(jobject);
+                    break;
+                }
             }
         }
         try {
             FileWriter file = new FileWriter("OTP.json");
             file.write(jsonArray.toJSONString());
+            file.flush();
             file.close();
         } catch (Exception ex) {
             System.out.println("Generic Error!");
