@@ -1,55 +1,63 @@
 package SSN;
+import Users.Users;
+
+import java.io.IOException;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
-import java.io.*;
 import java.net.http.HttpResponse;
-import java.io.FileWriter;
-import java.io.IOException;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import Users.Users;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class SSN {
-
+    //Function that returns true if a char is a vocal
     private static Boolean isVocale(char lettera){
         return lettera == 'a' || lettera == 'e' || lettera == 'i' || lettera == 'o' || lettera == 'u';
     }
 
-
+//Generator of italian Tax Code
     public static String SSNC(Users user) throws IOException, InterruptedException {
         String codiceFiscale = "";
         int i , cntConsonanti = 0;
         String lowerSurname = user.getSurname().toLowerCase();
 
-// SURNAME.1 = SERVONO LE PRIME 3 CONSONANTI
+//First loop of the Surname Tax Code, where it will get only the first 3 consonants
+
         for(i = 0; codiceFiscale.length() != 3 && i < lowerSurname.length(); ++i){
             if(!isVocale(lowerSurname.charAt(i))){
                 codiceFiscale += lowerSurname.charAt(i);
                 ++cntConsonanti;
             }
         }
-// SURNAME.2 = SE IL NUMERO DI CONSONANTI NON RAGGIUNGE 3, SI AGGIUNGONO LE VOCALI IN ORDINE
+//Second loop, it will get also voxels if consonant are lower than 3
+
         if(cntConsonanti < 3){
             for(i = 0; codiceFiscale.length() != 3 && i < lowerSurname.length(); ++i){
                 if(isVocale(lowerSurname.charAt(i))) codiceFiscale += lowerSurname.charAt(i);
             }
         }
-// SURNAME.3 = se il cognome è di sole 2 lettere, nel terzo carattere DEVE ESSERE inserita una X
+//Third loop, if surname has only two letters or less, then it will add an X at the end
+
         if(user.getSurname().length() == 2) codiceFiscale += 'X';
 
-// NAME.1 = .....
+
 //It removes all white spaces from TaxCode when name or surname has more than one word
+
         String lowerName = user.getName().toLowerCase();
         lowerName = (lowerName.replaceAll(" ", ""));
+
+//It counts how many consonants are inside the name
 
         cntConsonanti = 0;
         for(i = 0; i < lowerName.length(); ++i) {
             if (!isVocale(lowerName.charAt(i))) ++cntConsonanti;
         }
-// NAME.2 = .....
+//If name contains more of 4 cons
+
         int nConsonante = 0;
         for(i = 0; codiceFiscale.length() != 6 && i < lowerName.length(); ++i){
             if(!isVocale(lowerName.charAt(i))){
@@ -58,22 +66,25 @@ public class SSN {
                 else codiceFiscale += lowerName.charAt(i);
             }
         }
-// NAME.3 = .....
+//If name consonant counter is minus of 3
+
         if(cntConsonanti < 3){
             for(i = 0; codiceFiscale.length() != 6 && i < lowerName.length(); ++i){
                 if(isVocale(lowerName.charAt(i))) codiceFiscale += lowerName.charAt(i);
             }
         }
-// NAME.4 = .....
+//If the name contains less than 2 character, replace the third character with "X"
+
         if(user.getName().length() == 2) codiceFiscale += 'X';
 
-// BIRTH DATE.1 = .....
+//Standard date type: dd/mm/aaaa. In that case, we remove the "/" character and split the number
+
         String[] dataNascita = user.getdateB().split("/");
 
         codiceFiscale += dataNascita[2].charAt(2);
         codiceFiscale += dataNascita[2].charAt(3);
 
-// BIRTH DATE.2 =
+//Switch with month of the people who wants to use SSN calculator.
 /*
         A = gennaio
         B = febbraio
@@ -88,6 +99,7 @@ public class SSN {
         S = novembre
         T = dicembre.
 */
+//Solved the "0" behind month number
 
         if(dataNascita[1].charAt(0) == '0') dataNascita[1] = dataNascita[1].replace("0", "");
 
@@ -105,21 +117,24 @@ public class SSN {
             case "11": codiceFiscale += "S"; break;
             case "12": codiceFiscale += "T"; break;
         }
-// DATA NASCITA.3 = .....
+//Use data and sex of the people who want to use SSN calculator.
+
         if(Integer.parseInt(dataNascita[0]) < 10) dataNascita[0] = "" + dataNascita[0];
         if(user.getSex() == "F") dataNascita[0] = String.valueOf(Integer.parseInt(dataNascita[0]) + 40);
-
         codiceFiscale += dataNascita[0];
 
-// COMUNE NASCITA.1 = .....
+//Used the API city birth for calculate the 11,12,13,14 character of SSN
 //Creating Client to do an API request for "CodiceStatale" of CityB
+
         var client = HttpClient.newHttpClient();
         String cityB = (user.getCityB().replaceAll(" ", "%20"));
+
 //Creating request for the API request
         var request = HttpRequest.newBuilder(
                 URI.create("https://www.gerriquez.com/comuni/ws.php?dencomune="+ cityB))
                 .header("accept", "application/json")
                 .build();
+
 //The response will be in JSON format, and it will contain all the information of the CityB
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());
         String risposta= response.body();
@@ -135,8 +150,7 @@ public class SSN {
 
         codiceFiscale += (String) ((JSONObject) jsonArray.get(0)).get("CodiceCatastaleDelComune");
 
-// CARATTERE DI CONTROLLO
-
+//Algorythm for validate the SSN code. This character is used for omocode case.
         int sommaPari=0;
         codiceFiscale = codiceFiscale.toUpperCase();
         for (int j=1;j<=13;j+=2) {
@@ -250,6 +264,8 @@ public class SSN {
             case 24:{carattereControllo="Y";break;}
             case 25:{carattereControllo="Z";break;}
         }
+
+//SSN calculated.
         codiceFiscale+=carattereControllo;
         return codiceFiscale;
     }
