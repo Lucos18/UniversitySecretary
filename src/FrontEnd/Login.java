@@ -34,6 +34,7 @@ public class Login {
                         }
                         frame.dispose();
                     }
+
                 } catch (IllegalBlockSizeException | NoSuchPaddingException | BadPaddingException |
                          NoSuchAlgorithmException | InvalidKeyException ex) {
                     throw new RuntimeException(ex);

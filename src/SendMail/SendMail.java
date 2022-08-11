@@ -4,7 +4,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import javax.mail.Authenticator;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -43,7 +42,6 @@ public class SendMail {
                     InternetAddress.parse(email));
             message.setSubject(Subject);
             message.setText(Text);
-
             Transport.send(message);
             System.out.println("Email sent!");
 
@@ -83,8 +81,6 @@ public class SendMail {
         jobject.put("Email", email);
         jobject.put("OTP", OTP);
         jsonArray.add(jobject);
-        //The boolean will check if the user exist inside the json file
-        boolean OTPExist = true;
         //looping inside the jsonArray, checking if the user exist inside the json file by checking the email
         for (int i = 0; i < jsonArray.size(); i++) {
             if ((((JSONObject) jsonArray.get(i)).get("Email").equals(jobject.get("Email")))) {
