@@ -156,7 +156,7 @@ public class Users {
             //Insert the object inside the jsonArray for writing
             jsonArray.add(jobject);
             //It will write the jsonArray inside the users.json file, so it can be considered as a registered user
-            Users.writeFile(jsonArray);
+            Users.writeFile(jsonArray, "users.json");
             System.out.println("Registration completed!");
             return true;
         }
@@ -174,10 +174,10 @@ public class Users {
         }
         return jsonArray;
     }
-    public static void writeFile(JSONArray jsonArray){
+    public static void writeFile(JSONArray jsonArray, String directory){
         try {
             //Will create a file writer to write the new information inside the OTP.json
-            FileWriter file = new FileWriter("OTP.json");
+            FileWriter file = new FileWriter(directory);
             file.write(jsonArray.toJSONString());
             file.flush();
             file.close();
