@@ -16,9 +16,10 @@ public class ForgotPsw {
             if(Users.checkEmailValidation(emailTxtFld.getText())) {
                 SendMail.createOTP(emailTxtFld.getText());
 
-                OTP.init(emailTxtFld.getText());
+                OTP.init(emailTxtFld.getText(),false);
                 while(!(OTP.otpI)){}
-                if(OTP.otpC) {
+                if(OTP.otpC)
+                {
                     ChangePsw.init();
                 frame.dispose();
                 }

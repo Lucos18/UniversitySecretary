@@ -73,16 +73,8 @@ public class Signup {
 
                 if(Users.RegisterUser(u))
                 {
-                    OTP.init(emailTxtFld.getText());
-                    while(!(OTP.otpI)){}
-                    if(OTP.otpC) {
-                        //new register
-                        Login.init();
-                        frame.dispose();
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(null, "Entered OTP is not valid!");
-                    }
+                    OTP.init(emailTxtFld.getText(),true);
+                    frame.dispose();
                 }
             } catch (IOException | InterruptedException | IllegalBlockSizeException | NoSuchPaddingException |
                      BadPaddingException | NoSuchAlgorithmException | InvalidKeyException ex) {

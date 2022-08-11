@@ -14,6 +14,7 @@ public class OTP {
     private JButton sendOTPButton;
     private JPanel mainPanel;
     static String mail;
+    static boolean k;
 
     public OTP() {
         sendOTPButton.addActionListener(e -> {
@@ -22,13 +23,15 @@ public class OTP {
                 if(SendMail.readOTP(mail,otpTxtFld.getText())) {
                     otpC = true;
                 }
+                Login.init();
                 frame.dispose();
             }
         });
     }
 
-    public static void init(String args) {
+    public static void init(String args, boolean f) {
         mail=args;
+        k=f;
         frame = new JFrame();
         frame.setContentPane(new OTP().mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
