@@ -88,15 +88,7 @@ public class SendMail {
         jobject.put("Email", email);
         jobject.put("OTP", OTP);
         jsonArray.add(jobject);
-        try {
-            //Will create a file writer to write the new information inside the OTP.json
-            FileWriter file = new FileWriter("OTP.json");
-            file.write(jsonArray.toJSONString());
-            file.flush();
-            file.close();
-        } catch (Exception ex) {
-            System.out.println("Generic Error!");
-        }
+        Users.writeFile(jsonArray);
     }
     public static Boolean readOTP(String email, String OTP){
         JSONParser jsonParser = new JSONParser();

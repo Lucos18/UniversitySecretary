@@ -156,15 +156,7 @@ public class Users {
             //Insert the object inside the jsonArray for writing
             jsonArray.add(jobject);
             //It will write the jsonArray inside the users.json file, so it can be considered as a registered user
-            try {
-                FileWriter file = new FileWriter("users.json");
-                file.write(jsonArray.toJSONString());
-                file.flush();
-                file.close();
-            } catch (Exception ex) {
-                System.out.println("Generic Error!");
-                return false;
-            }
+            Users.writeFile(jsonArray);
             System.out.println("Registration completed!");
             return true;
         }
@@ -181,6 +173,17 @@ public class Users {
             System.out.println("Generic Error!");
         }
         return jsonArray;
+    }
+    public static void writeFile(JSONArray jsonArray){
+        try {
+            //Will create a file writer to write the new information inside the OTP.json
+            FileWriter file = new FileWriter("OTP.json");
+            file.write(jsonArray.toJSONString());
+            file.flush();
+            file.close();
+        } catch (Exception ex) {
+            System.out.println("Generic Error!");
+        }
     }
     //All getters and setters of Users
     public String getName() {
