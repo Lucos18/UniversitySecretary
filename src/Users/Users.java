@@ -98,21 +98,20 @@ public class Users {
         //Define the JSON Array and Parser
         JSONParser jsonParser = new JSONParser();
         JSONArray userList = new JSONArray();
-        try (FileReader reader = new FileReader("users.json")) {
+        try {
+            FileReader readerUser = new FileReader("users.json");
             //Read JSON file "users.json" and paste all the content inside the JSON array
-            userList = (JSONArray) jsonParser.parse(reader);
+            userList = (JSONArray) jsonParser.parse(readerUser);
             for (int i = 0; i < userList.size(); i++)
             {
                 //Boolean to see if an email and a password has been found inside the JSON array
-                boolean emailFound = ((((JSONObject) userList.get(i)).get("Email").equals(user.email)));
-                boolean PasswordFound = ((((JSONObject) userList.get(i)).get("password").equals(encryptedPassword)));
-                if (emailFound && PasswordFound)
+                boolean emailFoundUser = ((((JSONObject) userList.get(i)).get("Email").equals(user.email)));
+                boolean passwordFoundUser = ((((JSONObject) userList.get(i)).get("password").equals(encryptedPassword)));
+                if (emailFoundUser && passwordFoundUser)
                 {
 
                     SendMail.sendMail(user.getEmail(), "Nuovo tentativo di accesso", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName() + "\nSe sei tu, inserisci il seguente OTP per completare l'accesso: " + SendMail.createOTP(user.email));
                     //It will send a mail to the user email with the machine info that did the login.
-                    //SendMail.sendMail(user.getEmail(), "Nuovo accesso effettuato", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName());
-                    return true;
                 }
             }
         } catch (IOException | org.json.simple.parser.ParseException e) {
@@ -158,8 +157,19 @@ public class Users {
         //If exists email and OTP inside the "OTP.json" file then it will create the JSON Object with user information
         if (SendMail.readOTP(email,OTP))
         {
+            //Declaring JSON Object, Array and Parser
             JSONObject jobject = new JSONObject();
             JSONArray jsonArray = new JSONArray();
+            JSONParser jparser = new JSONParser();
+            //Reading the file to add inside the json Array
+            try {
+                FileReader file = new FileReader("users.json");
+                jsonArray = (JSONArray) jparser.parse(file);
+
+            } catch (Exception ex) {
+                System.out.println("Generic Error!");
+            }
+            //Add different information of the user inside the object
             jobject.put("Email", user.getEmail());
             jobject.put("CF", user.getCF());
             jobject.put("name", user.getName());
@@ -168,6 +178,8 @@ public class Users {
             jobject.put("cityBirth", user.getCityB());
             jobject.put("dateBirth", user.getdateB());
             jobject.put("sex", user.getSex());
+            jobject.put("role", user.getRole());
+            //Insert the object inside the jsonArray for writing
             jsonArray.add(jobject);
             //It will write the jsonArray inside the users.json file, so it can be considered as a registered user
             try {
