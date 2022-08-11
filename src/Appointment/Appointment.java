@@ -42,19 +42,15 @@ public class Appointment {
             return n;
         }
 
-        static boolean reqApp(Appointment reqToApp)
-                    /*Method to request an appointment
-                    place the request with all data in a Json file,where secretary can approve
-                    */
+        static Long searchApp(Appointment AppToSea)
         {
-            boolean response=false;
-            long pos = 0;
+            Long pos = null;
             JSONObject req = new JSONObject();      /*Definition of request with data passed by form*/
-            req.put("CF", reqToApp.CF);
-            req.put("date", reqToApp.date);
-            req.put("hour", reqToApp.hour);
-            req.put("desc", reqToApp.descr);
-            req.put("flag",reqToApp.status);
+            req.put("CF", AppToSea.CF);
+            req.put("date", AppToSea.date);
+            req.put("hour", AppToSea.hour);
+            req.put("desc", AppToSea.descr);
+            req.put("status",AppToSea.status);
             req.put("pos",pos);
 
             try {
@@ -67,7 +63,7 @@ public class Appointment {
                 {
                     JSONObject temp = new JSONObject(line);
                     String date = temp.getString("date");
-                    if(date.equalsIgnoreCase(reqToApp.date))                /*if found, set pos value and exit cicle*/
+                    if(date.equalsIgnoreCase(AppToSea.date))                /*if found, set pos value and exit cicle*/
                     {
                         pos = Long.parseLong(temp.getString("pos"));
                         flag=false;
@@ -79,20 +75,36 @@ public class Appointment {
                     JSONObject reqIndex = new JSONObject();    //object for request index
                     pos= (long) maxApp * req.length() * i;    //calculate position using n of appointment * bytes * number of date
                     reqIndex.put("pos", pos);
-                    reqIndex.put("date", reqToApp.date);
+                    reqIndex.put("date", AppToSea.date);
                     file.seek(file.length());
                     file.writeBytes(reqIndex.toString());
                 }
                 file.close();
             } catch (IOException e) {
                 throw new RuntimeException(e);}
+            return pos;
+        }
 
+        static boolean reqApp(Appointment reqToApp)
+                    /*Method to request an appointment
+                    place the request with all data in a Json file,where secretary can approve
+                    */
+        {
+            Long pos= searchApp(reqToApp);
+            boolean response=false;
+            JSONObject req = new JSONObject();      /*Definition of request with data passed by form*/
+            req.put("CF", reqToApp.CF);
+            req.put("date", reqToApp.date);
+            req.put("hour", reqToApp.hour);
+            req.put("desc", reqToApp.descr);
+            req.put("status",reqToApp.status);
+            req.put("pos",pos);
             try {
                 RandomAccessFile file= new RandomAccessFile("app.json","rw");
                 file.seek(pos+((long) req.length() *dateToN(reqToApp.hour)));
                 String line=file.readLine();
                 JSONObject temp = new JSONObject(line);
-                if(temp.isEmpty())
+                if(temp.isEmpty()||(!temp.getBoolean("status")))
                 {
                     response=true;
                     file.writeBytes(req.toString());
@@ -106,16 +118,33 @@ public class Appointment {
         }
 
 
-
-
-
-        static void confApp()
+        static boolean cancApp(Appointment AppToCanc)
         {
 
-        }
-
-        static void cancApp()
-        {
-
+            Long pos=searchApp(AppToCanc);
+            boolean response=false;
+            JSONObject req = new JSONObject();      /*Definition of request with data passed by form*/
+            req.put("CF", AppToCanc.CF);
+            req.put("date", AppToCanc.date);
+            req.put("hour", AppToCanc.hour);
+            req.put("desc", AppToCanc.descr);
+            req.put("status",false);
+            req.put("pos",pos);
+            try {
+                RandomAccessFile file= new RandomAccessFile("app.json","rw");
+                file.seek(pos+((long) req.length() *dateToN(AppToCanc.hour)));
+                String line=file.readLine();
+                JSONObject temp = new JSONObject(line);
+                if(!(temp.isEmpty()||(!temp.getBoolean("status"))))
+                {
+                    response=true;
+                    file.writeBytes(req.toString());
+                }
+                else System.out.println("errore nella cancellazione");
+                file.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return response;
         }
 }
