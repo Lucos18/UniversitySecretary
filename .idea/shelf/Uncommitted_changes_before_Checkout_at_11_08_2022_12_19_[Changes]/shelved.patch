@@ -1,0 +1,38 @@
+Index: UniversitySecretary.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"JAVA_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\" inherit-compiler-output=\"true\">\r\n    <exclude-output />\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <sourceFolder url=\"file://$MODULE_DIR$/src\" isTestSource=\"false\" />\r\n    </content>\r\n    <orderEntry type=\"inheritedJdk\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n    <orderEntry type=\"module-library\">\r\n      <library>\r\n        <CLASSES>\r\n          <root url=\"jar://$USER_HOME$/Downloads/activation.jar!/\" />\r\n        </CLASSES>\r\n        <JAVADOC />\r\n        <SOURCES />\r\n      </library>\r\n    </orderEntry>\r\n    <orderEntry type=\"module-library\">\r\n      <library>\r\n        <CLASSES>\r\n          <root url=\"jar://$USER_HOME$/Downloads/json-simple-1.1.jar!/\" />\r\n        </CLASSES>\r\n        <JAVADOC />\r\n        <SOURCES />\r\n      </library>\r\n    </orderEntry>\r\n    <orderEntry type=\"module-library\">\r\n      <library>\r\n        <CLASSES>\r\n          <root url=\"jar://$USER_HOME$/Downloads/javax.mail.jar!/\" />\r\n        </CLASSES>\r\n        <JAVADOC />\r\n        <SOURCES />\r\n      </library>\r\n    </orderEntry>\r\n  </component>\r\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/UniversitySecretary.iml b/UniversitySecretary.iml
+--- a/UniversitySecretary.iml	(revision 6268e3196b296bfcb7e10d7c86deb3d49ddffd9c)
++++ b/UniversitySecretary.iml	(date 1660213124173)
+@@ -34,5 +34,6 @@
+         <SOURCES />
+       </library>
+     </orderEntry>
++    <orderEntry type="library" name="json-simple-1.1.1" level="project" />
+   </component>
+ </module>
+\ No newline at end of file
+Index: .idea/libraries/json_simple_1_1_1.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/libraries/json_simple_1_1_1.xml b/.idea/libraries/json_simple_1_1_1.xml
+new file mode 100644
+--- /dev/null	(date 1660213124185)
++++ b/.idea/libraries/json_simple_1_1_1.xml	(date 1660213124185)
+@@ -0,0 +1,9 @@
++<component name="libraryTable">
++  <library name="json-simple-1.1.1">
++    <CLASSES>
++      <root url="jar://$USER_HOME$/Downloads/json-simple-1.1.1.jar!/" />
++    </CLASSES>
++    <JAVADOC />
++    <SOURCES />
++  </library>
++</component>
+\ No newline at end of file

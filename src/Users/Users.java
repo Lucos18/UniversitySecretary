@@ -3,10 +3,9 @@ import SSN.SSN;
 import SendMail.SendMail;
 
 import java.io.*;
+
 import java.net.InetAddress;
-import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.NoSuchAlgorithmException;
+
 import java.util.Base64;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,7 +20,9 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
-
+import java.security.InvalidKeyException;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
 public class Users {
     String name;
     String surname;
@@ -131,6 +132,7 @@ public class Users {
         }
         return SystemName;
     }
+    //Function that check if an Email is valid in term of syntax
     public static boolean checkEmailValidation(String email){
         //All the possible combination of emails
         String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}";
@@ -151,6 +153,7 @@ public class Users {
         //Will convert the encoded String to a normal String of the encrypted password
         return encoder.encodeToString(encrypted);
     }
+    //The function will read the OTP by the user and if the method returns true then add all the information inside the user.json file
     public static Boolean confirmOtpRegister(Users user, String email, String OTP){
         //If exists email and OTP inside the "OTP.json" file then it will create the JSON Object with user information
         if (SendMail.readOTP(email,OTP))
@@ -170,6 +173,7 @@ public class Users {
             try {
                 FileWriter file = new FileWriter("users.json");
                 file.write(jsonArray.toJSONString());
+                file.flush();
                 file.close();
             } catch (Exception ex) {
                 System.out.println("Generic Error!");

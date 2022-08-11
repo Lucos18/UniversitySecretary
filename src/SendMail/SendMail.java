@@ -40,7 +40,9 @@ public class SendMail {
             message.setFrom(new InternetAddress("maronnasanta99@outlook.it"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(email));
+            //Add Subject to the email content
             message.setSubject(Subject);
+            //Add Text to email content
             message.setText(Text);
             Transport.send(message);
             System.out.println("Email sent!");
@@ -77,21 +79,24 @@ public class SendMail {
         } catch (Exception ex) {
             System.out.println("Generic Error!");
         }
-        //Insert user email information inside the json object
-        jobject.put("Email", email);
-        jobject.put("OTP", OTP);
-        //looping inside the jsonArray, checking if the user exist inside the json file by checking the email
-        if (jsonArray.size() == 0) jsonArray.add(jobject);
-        else {
+        //Will check if the file .json inside the Array is empty, if not will enter in the for
+        if (jsonArray.size() != 0)
+        {
             for (int i = 0; i < jsonArray.size(); i++) {
-                if (!(((JSONObject) jsonArray.get(i)).get("Email").equals(jobject.get("Email")))) {
+                //Will check if the email corresponds to another email inside the array
+                if ((((JSONObject) jsonArray.get(i)).get("Email").equals(email))) {
                     //If Email is found inside the "OTP.json" file, it will remove the email object
-                    jsonArray.add(jobject);
+                    jsonArray.remove(i);
                     break;
                 }
             }
         }
+        //It will put inside the object the Email and the OTP informations, and then add inside the jsonArray
+        jobject.put("Email", email);
+        jobject.put("OTP", OTP);
+        jsonArray.add(jobject);
         try {
+            //Will create a file writer to write the new information inside the OTP.json
             FileWriter file = new FileWriter("OTP.json");
             file.write(jsonArray.toJSONString());
             file.flush();

@@ -1,5 +1,9 @@
 # Default ignored files
-/.idea/shelf/
-/workspace.xml
 /discord.xml
-/out/
+/uiDesigner.xml
+/shelf/
+/workspace.xml
+../out/
+/out
+/.idea/discord.xml
+/.idea/uiDesigner.xml
