@@ -1,5 +1,6 @@
 package SendMail;
 
+import Users.Users;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -69,16 +70,8 @@ public class SendMail {
     }
     public static void writeOTP(String OTP, String email){
         JSONObject jobject = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
-        JSONParser jparser = new JSONParser();
         //Reading the "OTP.json" file and parsing inside the json Array
-        try {
-            FileReader file = new FileReader("OTP.json");
-            jsonArray = (JSONArray) jparser.parse(file);
-
-        } catch (Exception ex) {
-            System.out.println("Generic Error!");
-        }
+        JSONArray jsonArray = Users.readFile("OTP.json");
         //Will check if the file .json inside the Array is empty, if not will enter in the for
         if (jsonArray.size() != 0)
         {
@@ -107,11 +100,8 @@ public class SendMail {
     }
     public static Boolean readOTP(String email, String OTP){
         JSONParser jsonParser = new JSONParser();
-        JSONArray OTPList = new JSONArray();
+        JSONArray OTPList = Users.readFile("OTP.json");
         //Read JSON file "OTP.json" and paste all the content inside the JSON array
-        try (FileReader reader = new FileReader("OTP.json")) {
-
-            OTPList = (JSONArray) jsonParser.parse(reader);
             for (int i = 0; i < OTPList.size(); i++)
             {
                 //Boolean to see if an email and a password has been found inside the JSON array
@@ -123,10 +113,6 @@ public class SendMail {
                     return true;
                 }
             }
-        } catch (IOException | org.json.simple.parser.ParseException e) {
-            e.printStackTrace();
-            return false;
-        }
         return false;
     }
 }
