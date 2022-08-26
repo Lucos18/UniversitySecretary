@@ -19,8 +19,8 @@ import javax.mail.internet.*;
 public class SendMail {
     public static void sendMail(String email, String Subject, String Text) {
         //Setting up username and password for login inside the Outlook email
-        final String username = "maronnasanta99@outlook.it";
-        final String password = "santamaronna99";
+        final String username = "santasanta104@outlook.it";
+        final String password = "maronna104";
         //Creating properties for mail auth
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -38,7 +38,7 @@ public class SendMail {
         try {
             //Creating a message to be sent via email
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("maronnasanta99@outlook.it"));
+            message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(email));
             //Add Subject to the email content

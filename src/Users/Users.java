@@ -94,13 +94,38 @@ public class Users {
             boolean passwordFoundUser = ((((JSONObject) userList.get(i)).get("password").equals(encryptedPassword)));
             if (emailFoundUser && passwordFoundUser)
             {
-
-                SendMail.sendMail(user.getEmail(), "Nuovo tentativo di accesso", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName() + "\nSe sei tu, inserisci il seguente OTP per completare l'accesso: " + SendMail.createOTP(user.email));
                 //It will send a mail to the user email with the machine info that did the login.
+                //SendMail.sendMail(user.getEmail(), "Nuovo tentativo di accesso", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName() + "\nSe sei tu, inserisci il seguente OTP per completare l'accesso: " + SendMail.createOTP(user.email));
                 return true;
             }
         }
         return false;
+    }
+
+    public static Users getUserInfo(Users user)
+    {
+        JSONArray userList = Users.readFile("users.json");
+        for (int i = 0; i < userList.size(); i++)
+        {
+            //Boolean to see if an email and a password has been found inside the JSON array
+            boolean emailFoundUser = ((((JSONObject) userList.get(i)).get("Email").equals(user.email)));
+            if (emailFoundUser)
+            {
+                String Name = (String) ((JSONObject) userList.get(i)).get("name");
+                String Surname = (String) ((JSONObject) userList.get(i)).get("surname");
+                String dateBirth = (String) ((JSONObject) userList.get(i)).get("dateBirth");
+                String cityBirth = (String) ((JSONObject) userList.get(i)).get("cityBirth");
+                String sex = (String) ((JSONObject) userList.get(i)).get("sex");
+                String CF = (String) ((JSONObject) userList.get(i)).get("CF");
+                System.out.println(Name);
+                System.out.println(CF);
+                System.out.println(Surname);
+                user.setCF(CF);
+                //Users userInfo = new Users(Name,Surname,dateBirth,cityBirth,sex,);
+                return user;
+            }
+        }
+        return user;
     }
     public static String getMachineName(){
         String SystemName = "";
@@ -219,6 +244,21 @@ public class Users {
     }
     public void setEmail(String Email) {
         this.email = Email;
+    }
+    public void setName(String Name) {
+        this.name = Name;
+    }
+    public void setSurname(String Surname) {
+        this.surname = Surname;
+    }
+    public void setCityB(String CityB) {
+        this.cityB = CityB;
+    }
+    public void setDateB(String dateB) {
+        this.dateB = dateB;
+    }
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 }
 

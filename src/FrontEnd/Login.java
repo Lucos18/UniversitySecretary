@@ -27,7 +27,7 @@ public class Login {
                     if (Users.Login(u))
                     {
                         if(!u.getRole()) {
-                            studentHome.init(u);
+                            studentHome.init(Users.getUserInfo(u));
                         }
                         else {
                             //student home

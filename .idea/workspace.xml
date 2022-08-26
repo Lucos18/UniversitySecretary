@@ -4,15 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="456e2a65-5d2e-4928-a8ee-c04764c9b454" name="Changes" comment="fixed otp">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_08_2022_12_17__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_08_2022_12_17__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_08_2022_12_19__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_08_2022_12_19__Changes_.xml" afterDir="false" />
+    <list default="true" id="456e2a65-5d2e-4928-a8ee-c04764c9b454" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_08_2022_12_19_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_08_2022_12_19__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/OTP.json" beforeDir="false" afterPath="$PROJECT_DIR$/OTP.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UniversitySecretary.iml" beforeDir="false" afterPath="$PROJECT_DIR$/UniversitySecretary.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FrontEnd/ForgotPsw.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FrontEnd/ForgotPsw.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FrontEnd/OTP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FrontEnd/OTP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FrontEnd/Signup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FrontEnd/Signup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FrontEnd/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FrontEnd/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SendMail/SendMail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SendMail/SendMail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Users/Users.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Users/Users.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/users.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -89,7 +89,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="36f50795-7d8a-432a-bd23-dcb9a73c305e" name="Changes" comment="" />
+      <changelist id="2b9c7bb3-6302-42ce-876e-d44a9399daee" name="Changes" comment="" />
       <created>1659946977197</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -183,27 +183,7 @@
           <properties class="java.lang.NoClassDefFoundError" package="java.lang" />
           <option name="timeStamp" value="1" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Users/Users.java</url>
-          <line>139</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/SendMail/SendMail.java</url>
-          <line>94</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/SendMail/SendMail.java</url>
-          <line>96</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="Application">
-        <watch expression="st.dateB" />
-      </configuration>
-    </watches-manager>
   </component>
 </project>
