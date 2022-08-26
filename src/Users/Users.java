@@ -111,16 +111,12 @@ public class Users {
             boolean emailFoundUser = ((((JSONObject) userList.get(i)).get("Email").equals(user.email)));
             if (emailFoundUser)
             {
-                String Name = (String) ((JSONObject) userList.get(i)).get("name");
-                String Surname = (String) ((JSONObject) userList.get(i)).get("surname");
-                String dateBirth = (String) ((JSONObject) userList.get(i)).get("dateBirth");
-                String cityBirth = (String) ((JSONObject) userList.get(i)).get("cityBirth");
-                String sex = (String) ((JSONObject) userList.get(i)).get("sex");
-                String CF = (String) ((JSONObject) userList.get(i)).get("CF");
-                System.out.println(Name);
-                System.out.println(CF);
-                System.out.println(Surname);
-                user.setCF(CF);
+                user.setCF((String) ((JSONObject) userList.get(i)).get("CF"));
+                user.setSex((String) ((JSONObject) userList.get(i)).get("sex"));
+                user.setCityB((String) ((JSONObject) userList.get(i)).get("cityBirth"));
+                user.setDateB((String) ((JSONObject) userList.get(i)).get("dateBirth"));
+                user.setSurname((String) ((JSONObject) userList.get(i)).get("surname"));
+                user.setName((String) ((JSONObject) userList.get(i)).get("name"));
                 //Users userInfo = new Users(Name,Surname,dateBirth,cityBirth,sex,);
                 return user;
             }

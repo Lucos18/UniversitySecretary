@@ -5,15 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="456e2a65-5d2e-4928-a8ee-c04764c9b454" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_08_2022_12_19_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_08_2022_12_19__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OTP.json" beforeDir="false" afterPath="$PROJECT_DIR$/OTP.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FrontEnd/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FrontEnd/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SendMail/SendMail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SendMail/SendMail.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Users/Users.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Users/Users.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/users.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
