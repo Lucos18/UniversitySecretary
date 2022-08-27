@@ -1,6 +1,13 @@
 package FrontEnd;
 
+import Users.Users;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.swing.*;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 public class ChangePsw {
     static JFrame frame;
@@ -14,7 +21,11 @@ public class ChangePsw {
         changePswButton.addActionListener(e -> {
             if(passwordTxtFld.isValid()&&emailTxtFld.isValid())
             {
-                //funzione cambia password
+                try {
+                    if(Users.newPassword(emailTxtFld.getText(), String.valueOf(passwordTxtFld.getPassword()))) JOptionPane.showMessageDialog(null, "Password changed!");
+                    else JOptionPane.showMessageDialog(null, "Password not changed!");
+                } catch (IllegalBlockSizeException | NoSuchPaddingException | BadPaddingException |
+                         NoSuchAlgorithmException | InvalidKeyException ex) {throw new RuntimeException(ex);}
                 frame.dispose();
             }
         });

@@ -15,7 +15,5 @@ public class Main {
     public static void main(String[] args) throws IllegalBlockSizeException, NoSuchPaddingException, IOException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException, InterruptedException {
         Users user = new Users("LUCOS", "LOLO", "23/01/2004", "CASAPULLA", "M", "GIANCOMARCIO@GMAIL.COM", "TEST");
         Login.init();
-        //Users.RegisterUser(user);
-
     }
 }

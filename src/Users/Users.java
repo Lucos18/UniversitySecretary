@@ -95,7 +95,7 @@ public class Users {
             if (emailFoundUser && passwordFoundUser)
             {
                 //It will send a mail to the user email with the machine info that did the login.
-                //SendMail.sendMail(user.getEmail(), "Nuovo tentativo di accesso", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName() + "\nSe sei tu, inserisci il seguente OTP per completare l'accesso: " + SendMail.createOTP(user.email));
+                SendMail.sendMail(user.getEmail(), "Nuovo tentativo di accesso", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName() + "\nSe sei tu, inserisci il seguente OTP per completare l'accesso: " + SendMail.createOTP(user.email));
                 return true;
             }
         }
@@ -111,13 +111,13 @@ public class Users {
             boolean emailFoundUser = ((((JSONObject) userList.get(i)).get("Email").equals(user.email)));
             if (emailFoundUser)
             {
+                //Will set all the information that we need for the home student of already existing user object
                 user.setCF((String) ((JSONObject) userList.get(i)).get("CF"));
                 user.setSex((String) ((JSONObject) userList.get(i)).get("sex"));
                 user.setCityB((String) ((JSONObject) userList.get(i)).get("cityBirth"));
                 user.setDateB((String) ((JSONObject) userList.get(i)).get("dateBirth"));
                 user.setSurname((String) ((JSONObject) userList.get(i)).get("surname"));
                 user.setName((String) ((JSONObject) userList.get(i)).get("name"));
-                //Users userInfo = new Users(Name,Surname,dateBirth,cityBirth,sex,);
                 return user;
             }
         }
@@ -197,7 +197,7 @@ public class Users {
     }
     public static void writeFile(JSONArray jsonArray, String directory){
         try {
-            //Will create a file writer to write the new information inside the OTP.json
+            //Will create a file writer to write the new information inside the directory parameter
             FileWriter file = new FileWriter(directory);
             file.write(jsonArray.toJSONString());
             file.flush();
@@ -205,6 +205,29 @@ public class Users {
         } catch (Exception ex) {
             System.out.println("Generic Error!");
         }
+    }
+    public static boolean newPassword(String email, String newPassword) throws IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        JSONObject jobject;
+        JSONArray userList = Users.readFile("users.json");
+        for (int i = 0; i < userList.size(); i++)
+        {
+            //Boolean to see if an email has been found inside the JSON array
+            boolean emailFoundUser = ((((JSONObject) userList.get(i)).get("Email").equals(email)));
+            if (emailFoundUser)
+            {
+                //Will get the User that we need to change the password
+                jobject = (JSONObject) userList.get(i);
+                //Put the new password inside the parameter "password" of the user
+                jobject.put("password", Users.encryptPassword(newPassword));
+                //Will remove the User from the "users.json" file
+                userList.remove(i);
+                //Add back the User to the file with the new password
+                userList.add(jobject);
+                Users.writeFile(userList,"users.json");
+                return true;
+            }
+        }
+        return false;
     }
     //All getters and setters of Users
     public String getName() {

@@ -112,5 +112,18 @@ public class SendMail {
         OTPList.remove(index);
         Users.writeFile(OTPList, "OTP.json");
     }
+    public static boolean checkUserEmailExists(String email){
+        JSONArray userList = Users.readFile("users.json");
+        for (int i = 0; i < userList.size(); i++)
+        {
+            //Boolean to see if an email has been found inside the JSON array
+            boolean emailFoundUser = ((((JSONObject) userList.get(i)).get("Email").equals(email)));
+            if (emailFoundUser)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
