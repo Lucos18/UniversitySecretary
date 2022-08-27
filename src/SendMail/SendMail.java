@@ -101,10 +101,16 @@ public class SendMail {
                 boolean OTPFound = ((((JSONObject) OTPList.get(i)).get("OTP").equals(OTP)));
                 if (emailFound && OTPFound)
                 {
+                    deleteOTP(OTPList,i);
                     //It will return true if email and OTP have been found
                     return true;
                 }
             }
         return false;
     }
+    public static void deleteOTP(JSONArray OTPList,int index){
+        OTPList.remove(index);
+        Users.writeFile(OTPList, "OTP.json");
+    }
 }
+

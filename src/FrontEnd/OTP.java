@@ -43,8 +43,7 @@ public class OTP {
                 }
 
             }
-            JOptionPane.showMessageDialog(null, "Entered OTP is not valid!");
-
+            if (!otpC) JOptionPane.showMessageDialog(null, "Entered OTP is not valid!");
         });
     }
 

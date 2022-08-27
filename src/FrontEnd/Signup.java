@@ -51,7 +51,7 @@ public class Signup {
                 super.focusGained(e);
                 if(nameTxtFld.isValid() && surnameTxtFld.isValid() && birthcTxtFld.isValid() && birthdTxtFld.isValid() && sexCmbox.isValid()&&checkDate(birthdTxtFld.getText()))
                 {
-                    u = new Users (nameTxtFld.getText(),surnameTxtFld.getText(),birthdTxtFld.getText(),birthcTxtFld.getText(),sexCmbox.toString(),null,null); //creation and inazialization of the object user
+                    u = new Users (nameTxtFld.getText(),surnameTxtFld.getText(),birthdTxtFld.getText(),birthcTxtFld.getText(),sexCmbox.getSelectedItem().toString(),null,null); //creation and inazialization of the object user
                     try {
                         SSNTxtFld.setText(SSN.SSNC(u));
                     } catch (IOException | InterruptedException ex) {
