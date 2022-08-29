@@ -27,7 +27,7 @@ public class Login {
                     if (Users.Login(u))
                     {
                         if(!u.getRole()) {
-                            studentHome.init(u);
+                            studentHome.init(Users.getUserInfo(u));
                         }
                         else {
                             //student home
@@ -45,7 +45,10 @@ public class Login {
             Signup.init();
             frame.dispose();
         });
-        forgotPasswordButton.addActionListener(e -> ForgotPsw.init());
+        forgotPasswordButton.addActionListener(e -> {
+            ForgotPsw.init();
+            frame.dispose();
+        });
     }
 
     public static void init() {

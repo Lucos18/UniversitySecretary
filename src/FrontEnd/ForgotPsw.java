@@ -10,28 +10,26 @@ public class ForgotPsw {
     private JTextField emailTxtFld;
     private JButton SendMButton;
     private JPanel mainPanel;
+    static Users u;
 
     public ForgotPsw() {
         SendMButton.addActionListener(e -> {
-            if(Users.checkEmailValidation(emailTxtFld.getText())) {
-                SendMail.createOTP(emailTxtFld.getText());
-
-                OTP.init(emailTxtFld.getText(),false);
-                while(!(OTP.otpI)){}
-                if(OTP.otpC)
+            u.setEmail(emailTxtFld.getText());
+            if(Users.checkEmailValidation(u.getEmail())) {
+                if (SendMail.checkUserEmailExists(u.getEmail()))
                 {
-                    ChangePsw.init();
-                frame.dispose();
+                    SendMail.sendMail(u.getEmail(), "noreply", "Change password, insert this OTP: "+SendMail.createOTP(emailTxtFld.getText()));
+                    OTP.init(u);
+                    frame.dispose();
                 }
                 else
-                {
-                    JOptionPane.showMessageDialog(null, "Entered OTP is not valid!");
-                }
+                    JOptionPane.showMessageDialog(null, "User doesn't exists.");
             }
         });
     }
-
     public static void init() {
+        u= new Users(null,null);
+        u.setName("");
         frame = new JFrame();
         frame.setContentPane(new ForgotPsw().mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

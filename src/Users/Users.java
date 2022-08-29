@@ -3,10 +3,9 @@ import SSN.SSN;
 import SendMail.SendMail;
 
 import java.io.*;
+
 import java.net.InetAddress;
-import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.NoSuchAlgorithmException;
+
 import java.util.Base64;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,7 +20,9 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
-
+import java.security.InvalidKeyException;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
 public class Users {
     String name;
     String surname;
@@ -30,7 +31,6 @@ public class Users {
     String sex;
     String email;
     String password;
-
     String CF = null;
     boolean role = false;
     public Users(String name, String surname, String dateB, String cityB, String sex, String email, String password)
@@ -54,17 +54,7 @@ public class Users {
         user.setCF(CF);
         //Define the JSON Object, Array and Parser
         JSONObject jobject = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
-        JSONParser jparser = new JSONParser();
-        //Reading the "users.json" file and parsing inside the json Array
-        try {
-            FileReader file = new FileReader("users.json");
-            jsonArray = (JSONArray) jparser.parse(file);
-
-        } catch (Exception ex) {
-            System.out.println("Generic Error!");
-            return false;
-        }
+        JSONArray jsonArray = Users.readFile("users.json");
         //Insert user email information inside the json object
         jobject.put("Email", user.getEmail());
         jobject.put("CF", user.getCF());
@@ -94,31 +84,43 @@ public class Users {
     public static boolean Login(Users user) throws IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
         //Get encrypted password to read inside the database user
         String encryptedPassword = encryptPassword(user.password);
-        //Define the JSON Array and Parser
-        JSONParser jsonParser = new JSONParser();
-        JSONArray userList = new JSONArray();
-        try (FileReader reader = new FileReader("users.json")) {
-            //Read JSON file "users.json" and paste all the content inside the JSON array
-            userList = (JSONArray) jsonParser.parse(reader);
-            for (int i = 0; i < userList.size(); i++)
+        //Define the JSON Array by reading through the method
+        JSONArray userList = Users.readFile("users.json");
+        for (int i = 0; i < userList.size(); i++)
+        {
+            //Boolean to see if an email and a password has been found inside the JSON array
+            boolean emailFoundUser = ((((JSONObject) userList.get(i)).get("Email").equals(user.email)));
+            boolean passwordFoundUser = ((((JSONObject) userList.get(i)).get("password").equals(encryptedPassword)));
+            if (emailFoundUser && passwordFoundUser)
             {
-                //Boolean to see if an email and a password has been found inside the JSON array
-                boolean emailFound = ((((JSONObject) userList.get(i)).get("Email").equals(user.email)));
-                boolean PasswordFound = ((((JSONObject) userList.get(i)).get("password").equals(encryptedPassword)));
-                if (emailFound && PasswordFound)
-                {
-
-                    SendMail.sendMail(user.getEmail(), "Nuovo tentativo di accesso", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName() + "\nSe sei tu, inserisci il seguente OTP per completare l'accesso: " + SendMail.createOTP(user.email));
-                    //It will send a mail to the user email with the machine info that did the login.
-                    //SendMail.sendMail(user.getEmail(), "Nuovo accesso effettuato", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName());
-                    return true;
-                }
+                //It will send a mail to the user email with the machine info that did the login.
+                SendMail.sendMail(user.getEmail(), "Nuovo tentativo di accesso", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName() + "\nSe sei tu, inserisci il seguente OTP per completare l'accesso: " + SendMail.createOTP(user.email));
+                return true;
             }
-        } catch (IOException | org.json.simple.parser.ParseException e) {
-            e.printStackTrace();
-            return false;
         }
         return false;
+    }
+
+    public static Users getUserInfo(Users user)
+    {
+        JSONArray userList = Users.readFile("users.json");
+        for (int i = 0; i < userList.size(); i++)
+        {
+            //Boolean to see if an email and a password has been found inside the JSON array
+            boolean emailFoundUser = ((((JSONObject) userList.get(i)).get("Email").equals(user.email)));
+            if (emailFoundUser)
+            {
+                //Will set all the information that we need for the home student of already existing user object
+                user.setCF((String) ((JSONObject) userList.get(i)).get("CF"));
+                user.setSex((String) ((JSONObject) userList.get(i)).get("sex"));
+                user.setCityB((String) ((JSONObject) userList.get(i)).get("cityBirth"));
+                user.setDateB((String) ((JSONObject) userList.get(i)).get("dateBirth"));
+                user.setSurname((String) ((JSONObject) userList.get(i)).get("surname"));
+                user.setName((String) ((JSONObject) userList.get(i)).get("name"));
+                return user;
+            }
+        }
+        return user;
     }
     public static String getMachineName(){
         String SystemName = "";
@@ -131,6 +133,7 @@ public class Users {
         }
         return SystemName;
     }
+    //Function that check if an Email is valid in term of syntax
     public static boolean checkEmailValidation(String email){
         //All the possible combination of emails
         String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}";
@@ -151,12 +154,16 @@ public class Users {
         //Will convert the encoded String to a normal String of the encrypted password
         return encoder.encodeToString(encrypted);
     }
+    //The function will read the OTP by the user and if the method returns true then add all the information inside the user.json file
     public static Boolean confirmOtpRegister(Users user, String email, String OTP){
         //If exists email and OTP inside the "OTP.json" file then it will create the JSON Object with user information
         if (SendMail.readOTP(email,OTP))
         {
+            //Declaring JSON Object, Array and Parser
             JSONObject jobject = new JSONObject();
-            JSONArray jsonArray = new JSONArray();
+            //Reading the file to add inside the json Array
+            JSONArray jsonArray = Users.readFile("users.json");
+            //Add different information of the user inside the object
             jobject.put("Email", user.getEmail());
             jobject.put("CF", user.getCF());
             jobject.put("name", user.getName());
@@ -165,18 +172,59 @@ public class Users {
             jobject.put("cityBirth", user.getCityB());
             jobject.put("dateBirth", user.getdateB());
             jobject.put("sex", user.getSex());
+            jobject.put("role", user.getRole());
+            //Insert the object inside the jsonArray for writing
             jsonArray.add(jobject);
             //It will write the jsonArray inside the users.json file, so it can be considered as a registered user
-            try {
-                FileWriter file = new FileWriter("users.json");
-                file.write(jsonArray.toJSONString());
-                file.close();
-            } catch (Exception ex) {
-                System.out.println("Generic Error!");
-                return false;
-            }
+            Users.writeFile(jsonArray, "users.json");
             System.out.println("Registration completed!");
             return true;
+        }
+        return false;
+    }
+    public static JSONArray readFile(String directory){
+        JSONParser jparser = new JSONParser();
+        JSONArray jsonArray = new JSONArray();
+        try {
+            FileReader file = new FileReader(directory);
+            jsonArray = (JSONArray) jparser.parse(file);
+
+        } catch (Exception ex) {
+            System.out.println("Generic Error!");
+        }
+        return jsonArray;
+    }
+    public static void writeFile(JSONArray jsonArray, String directory){
+        try {
+            //Will create a file writer to write the new information inside the directory parameter
+            FileWriter file = new FileWriter(directory);
+            file.write(jsonArray.toJSONString());
+            file.flush();
+            file.close();
+        } catch (Exception ex) {
+            System.out.println("Generic Error!");
+        }
+    }
+    public static boolean newPassword(String email, String newPassword) throws IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        JSONObject jobject;
+        JSONArray userList = Users.readFile("users.json");
+        for (int i = 0; i < userList.size(); i++)
+        {
+            //Boolean to see if an email has been found inside the JSON array
+            boolean emailFoundUser = ((((JSONObject) userList.get(i)).get("Email").equals(email)));
+            if (emailFoundUser)
+            {
+                //Will get the User that we need to change the password
+                jobject = (JSONObject) userList.get(i);
+                //Put the new password inside the parameter "password" of the user
+                jobject.put("password", Users.encryptPassword(newPassword));
+                //Will remove the User from the "users.json" file
+                userList.remove(i);
+                //Add back the User to the file with the new password
+                userList.add(jobject);
+                Users.writeFile(userList,"users.json");
+                return true;
+            }
         }
         return false;
     }
@@ -215,7 +263,21 @@ public class Users {
     public void setEmail(String Email) {
         this.email = Email;
     }
-    public void setRole(boolean Role) { this.role = Role;}
+    public void setName(String Name) {
+        this.name = Name;
+    }
+    public void setSurname(String Surname) {
+        this.surname = Surname;
+    }
+    public void setCityB(String CityB) {
+        this.cityB = CityB;
+    }
+    public void setDateB(String dateB) {
+        this.dateB = dateB;
+    }
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
 }
 
 

@@ -1,5 +1,6 @@
 package SendMail;
 
+import Users.Users;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -18,8 +19,8 @@ import javax.mail.internet.*;
 public class SendMail {
     public static void sendMail(String email, String Subject, String Text) {
         //Setting up username and password for login inside the Outlook email
-        final String username = "maronnasanta99@outlook.it";
-        final String password = "santamaronna99";
+        final String username = "santasanta104@outlook.it";
+        final String password = "maronna104";
         //Creating properties for mail auth
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -37,10 +38,12 @@ public class SendMail {
         try {
             //Creating a message to be sent via email
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("maronnasanta99@outlook.it"));
+            message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(email));
+            //Add Subject to the email content
             message.setSubject(Subject);
+            //Add Text to email content
             message.setText(Text);
             Transport.send(message);
             System.out.println("Email sent!");
@@ -67,43 +70,30 @@ public class SendMail {
     }
     public static void writeOTP(String OTP, String email){
         JSONObject jobject = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
-        JSONParser jparser = new JSONParser();
         //Reading the "OTP.json" file and parsing inside the json Array
-        try {
-            FileReader file = new FileReader("OTP.json");
-            jsonArray = (JSONArray) jparser.parse(file);
-
-        } catch (Exception ex) {
-            System.out.println("Generic Error!");
+        JSONArray jsonArray = Users.readFile("OTP.json");
+        //Will check if the file .json inside the Array is empty, if not will enter in the for
+        if (jsonArray.size() != 0)
+        {
+            for (int i = 0; i < jsonArray.size(); i++) {
+                //Will check if the email corresponds to another email inside the array
+                if ((((JSONObject) jsonArray.get(i)).get("Email").equals(email))) {
+                    //If Email is found inside the "OTP.json" file, it will remove the email object
+                    jsonArray.remove(i);
+                    break;
+                }
+            }
         }
-        //Insert user email information inside the json object
+        //It will put inside the object the Email and the OTP informations, and then add inside the jsonArray
         jobject.put("Email", email);
         jobject.put("OTP", OTP);
         jsonArray.add(jobject);
-        //looping inside the jsonArray, checking if the user exist inside the json file by checking the email
-        for (int i = 0; i < jsonArray.size(); i++) {
-            if ((((JSONObject) jsonArray.get(i)).get("Email").equals(jobject.get("Email")))) {
-                //If Email is found inside the "OTP.json" file, it will remove the email object
-                jsonArray.remove(i);
-                break;
-            }
-        }
-        try {
-            FileWriter file = new FileWriter("OTP.json");
-            file.write(jsonArray.toJSONString());
-            file.close();
-        } catch (Exception ex) {
-            System.out.println("Generic Error!");
-        }
+        Users.writeFile(jsonArray, "OTP.json");
     }
     public static Boolean readOTP(String email, String OTP){
         JSONParser jsonParser = new JSONParser();
-        JSONArray OTPList = new JSONArray();
+        JSONArray OTPList = Users.readFile("OTP.json");
         //Read JSON file "OTP.json" and paste all the content inside the JSON array
-        try (FileReader reader = new FileReader("OTP.json")) {
-
-            OTPList = (JSONArray) jsonParser.parse(reader);
             for (int i = 0; i < OTPList.size(); i++)
             {
                 //Boolean to see if an email and a password has been found inside the JSON array
@@ -111,14 +101,29 @@ public class SendMail {
                 boolean OTPFound = ((((JSONObject) OTPList.get(i)).get("OTP").equals(OTP)));
                 if (emailFound && OTPFound)
                 {
+                    deleteOTP(OTPList,i);
                     //It will return true if email and OTP have been found
                     return true;
                 }
             }
-        } catch (IOException | org.json.simple.parser.ParseException e) {
-            e.printStackTrace();
-            return false;
+        return false;
+    }
+    public static void deleteOTP(JSONArray OTPList,int index){
+        OTPList.remove(index);
+        Users.writeFile(OTPList, "OTP.json");
+    }
+    public static boolean checkUserEmailExists(String email){
+        JSONArray userList = Users.readFile("users.json");
+        for (int i = 0; i < userList.size(); i++)
+        {
+            //Boolean to see if an email has been found inside the JSON array
+            boolean emailFoundUser = ((((JSONObject) userList.get(i)).get("Email").equals(email)));
+            if (emailFoundUser)
+            {
+                return true;
+            }
         }
         return false;
     }
 }
+
