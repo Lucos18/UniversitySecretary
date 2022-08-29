@@ -31,10 +31,14 @@ public class Users {
     String sex;
     String email;
     String password;
+<<<<<<< HEAD
+    String CF;
+=======
 
     String CF = null;
+>>>>>>> Test-Luca-Raffaele
     boolean role = false;
-    public Users(String name, String surname, String dateB, String cityB, String sex, String email, String password)
+    public Users(String name, String surname, String dateB, String cityB, String sex, String email, String password, String CF)
     {
         this.name = name;
         this.surname = surname;
@@ -43,11 +47,20 @@ public class Users {
         this.sex = sex;
         this.email = email;
         this.password = password;
+        this.CF=CF;
     }
+<<<<<<< HEAD
+    public Users(String name, String surname, String email, String password, String CF, Boolean role)
+=======
     public Users(String email, String password)
+>>>>>>> Test-Luca-Raffaele
     {
         this.email = email;
         this.password = password;
+<<<<<<< HEAD
+        this.CF=CF;
+        this.role = role;
+=======
     }
     //Function to register a user in the University JSON, with different user information.
     public static boolean RegisterUser(Users user) throws IOException, InterruptedException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
@@ -278,6 +291,7 @@ public class Users {
     }
     public void setSex(String sex) {
         this.sex = sex;
+>>>>>>> Test-Luca-Raffaele
     }
 }
 
