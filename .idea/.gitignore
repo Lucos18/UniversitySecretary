@@ -4,5 +4,8 @@ workspace.xml
 discord.xml
 ../out/
 uiDesigner.xml
+<<<<<<< HEAD
 ../src/app.json
 ../IndexApp.json
+=======
+>>>>>>> Test-Luca-Raffaele
