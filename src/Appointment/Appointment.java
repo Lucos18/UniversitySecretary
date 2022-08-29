@@ -332,5 +332,4 @@ public class Appointment {
                 throw new RuntimeException(e);
             }
         }
-
 }

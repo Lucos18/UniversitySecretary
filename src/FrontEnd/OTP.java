@@ -22,11 +22,11 @@ public class OTP {
         sendOTPButton.addActionListener(e -> {
             if(otpTxtFld.isValid()) {
                 otpI = true;
-                if (st.getName().length()==0)
+                if (st.getName().isEmpty())
                 {
                     if(SendMail.readOTP(mail,otpTxtFld.getText())) {
                         otpC = true;
-                        Login.init();
+                        ChangePsw.init(mail); 
                         JOptionPane.showMessageDialog(null, "Entered OTP is valid!");
                         frame.dispose();
                     }
@@ -46,10 +46,8 @@ public class OTP {
             if (!otpC) JOptionPane.showMessageDialog(null, "Entered OTP is not valid!");
         });
     }
-
-    public static void init(String args, boolean f, Users u) {
-        mail=args;
-        k=f;
+    public static void init(Users u) {
+        mail=u.getEmail();
         st=u;
         frame = new JFrame();
         frame.setContentPane(new OTP().mainPanel);

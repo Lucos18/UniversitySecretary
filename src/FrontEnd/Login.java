@@ -45,7 +45,10 @@ public class Login {
             Signup.init();
             frame.dispose();
         });
-        forgotPasswordButton.addActionListener(e -> ForgotPsw.init());
+        forgotPasswordButton.addActionListener(e -> {
+            ForgotPsw.init();
+            frame.dispose();
+        });
     }
 
     public static void init() {

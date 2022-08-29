@@ -73,7 +73,7 @@ public class Signup {
 
                 if(Users.RegisterUser(u))
                 {
-                    OTP.init(emailTxtFld.getText(),true, u);
+                    OTP.init(u);
                     frame.dispose();
                 }
             } catch (IOException | InterruptedException | IllegalBlockSizeException | NoSuchPaddingException |
