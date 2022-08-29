@@ -94,7 +94,7 @@ public class Users {
             if (emailFoundUser && passwordFoundUser)
             {
                 //It will send a mail to the user email with the machine info that did the login.
-                SendMail.sendMail(user.getEmail(), "Nuovo tentativo di accesso", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName() + "\nSe sei tu, inserisci il seguente OTP per completare l'accesso: " + SendMail.createOTP(user.email));
+                //SendMail.sendMail(user.getEmail(), "Nuovo tentativo di accesso", "è stato effettuato un nuovo accesso all'account tramite il dispositivo: " + getMachineName() + "\nSe sei tu, inserisci il seguente OTP per completare l'accesso: " + SendMail.createOTP(user.email));
                 return true;
             }
         }
@@ -190,7 +190,7 @@ public class Users {
             jsonArray = (JSONArray) jparser.parse(file);
 
         } catch (Exception ex) {
-            System.out.println("Generic Error!");
+            System.out.println("Generic Error!" + ex);
         }
         return jsonArray;
     }

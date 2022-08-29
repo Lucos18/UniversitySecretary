@@ -4,7 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="456e2a65-5d2e-4928-a8ee-c04764c9b454" name="Changes" comment="" />
+    <list default="true" id="456e2a65-5d2e-4928-a8ee-c04764c9b454" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/Libraries/json-20220320 (1).jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/Libraries/json_20220320__1_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/json_simple_1_12.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OTP.json" beforeDir="false" afterPath="$PROJECT_DIR$/OTP.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UniversitySecretary.iml" beforeDir="false" afterPath="$PROJECT_DIR$/UniversitySecretary.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Appointment/Appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Appointment/Appointment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Appointment/IndexApp.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/Appointment/IndexApp.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Appointment/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/Appointment/app.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FrontEnd/appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FrontEnd/appointment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FrontEnd/scheduleAppointment.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/FrontEnd/scheduleAppointment.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FrontEnd/scheduleAppointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FrontEnd/scheduleAppointment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FrontEnd/studentHome.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FrontEnd/studentHome.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Users/Users.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Users/Users.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,7 +49,7 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Luca" />
+        <entry key="$PROJECT_DIR$" value="Test-Luca-Raffaele" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -55,18 +71,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Lucos18/IdeaProjects/UniversitySecretary/.idea/Libraries/activation.jar&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "C:/Users/Lucos18/IdeaProjects/UniversitySecretary/.idea/Libraries/json-20220320 (1).jar",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
