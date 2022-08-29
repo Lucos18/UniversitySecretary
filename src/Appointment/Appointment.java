@@ -29,7 +29,7 @@ public class Appointment {
         String hour;    // hh:mm
         String CF;
         String descr;   //short description max 50 ch
-        String id;      //max 6 char
+        //String id;      //max 6 char
         boolean status=true; //if true appointment was approved
         public Appointment(String date, String hour, String CF, String descr)
         {
