@@ -75,14 +75,6 @@
               <text value="Time"/>
             </properties>
           </component>
-          <component id="7d9ad" class="javax.swing.JTextField" binding="timeTxtFld">
-            <constraints>
-              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
-              </grid>
-            </constraints>
-            <properties/>
-          </component>
           <component id="6e8ba" class="javax.swing.JTextField" binding="descriptionTxtFld">
             <constraints>
               <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
@@ -100,6 +92,27 @@
               <font name="Times New Roman" size="20"/>
               <icon value="Images/back.png"/>
               <text value=""/>
+            </properties>
+          </component>
+          <component id="93c76" class="javax.swing.JComboBox" binding="TimeBox">
+            <constraints>
+              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <model>
+                <item value="09:00"/>
+                <item value="09:30"/>
+                <item value="10:00"/>
+                <item value="10:30"/>
+                <item value="11:00"/>
+                <item value="11:30"/>
+                <item value="12:00"/>
+                <item value="12:30"/>
+                <item value="14:00"/>
+                <item value="14:30"/>
+                <item value="15:00"/>
+                <item value="15:30"/>
+              </model>
             </properties>
           </component>
         </children>

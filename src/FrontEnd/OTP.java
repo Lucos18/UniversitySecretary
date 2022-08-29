@@ -26,7 +26,7 @@ public class OTP {
                 {
                     if(SendMail.readOTP(mail,otpTxtFld.getText())) {
                         otpC = true;
-                        ChangePsw.init(mail);
+                        ChangePsw.init(mail); 
                         JOptionPane.showMessageDialog(null, "Entered OTP is valid!");
                         frame.dispose();
                     }
@@ -46,7 +46,6 @@ public class OTP {
             if (!otpC) JOptionPane.showMessageDialog(null, "Entered OTP is not valid!");
         });
     }
-
     public static void init(Users u) {
         mail=u.getEmail();
         st=u;
