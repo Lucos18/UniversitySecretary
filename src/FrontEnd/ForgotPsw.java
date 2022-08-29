@@ -23,7 +23,7 @@ public class ForgotPsw {
                     frame.dispose();
                 }
                 else
-                    JOptionPane.showMessageDialog(null, "User doesn't exists.");
+                    JOptionPane.showMessageDialog(null, "User doesn't exists.");      
             }
         });
     }

@@ -1,0 +1,79 @@
+[
+  {
+    "password": "DIYuafF80AQj0E6ZvlxFkA==",
+    "Email": "LUCABUONPANE3@GMAIL.COM",
+    "CF": "GGGLCU04A23I234I",
+    "role": false,
+    "surname": "GIGIGIG",
+    "cityBirth": "SANTA MARIA CAPUA VETERE",
+    "sex": "M",
+    "name": "LUCA",
+    "dateBirth": "23\/01\/2004"
+  },
+  {
+    "password": "DIYuafF80AQj0E6ZvlxFkA==",
+    "Email": "BBOH204@GMAIL.COM",
+    "CF": "PZZLCS04A23I234V",
+    "role": false,
+    "surname": "PEZZO",
+    "cityBirth": "SANTA MARIA CAPUA VETERE",
+    "sex": "M",
+    "name": "LUCOS",
+    "dateBirth": "23\/01\/2004"
+  },
+  {
+    "password": "DIYuafF80AQj0E6ZvlxFkA==",
+    "Email": "gigigigig@GMAIL.COM",
+    "CF": "GGGNPZ04A23I234N",
+    "role": false,
+    "surname": "gigiogigig",
+    "cityBirth": "SANTA MARIA CAPUA VETERE",
+    "sex": "M",
+    "name": "NOTPEZZO",
+    "dateBirth": "23\/01\/2004"
+  },
+  {
+    "password": "69hbU45MHZtAQO0rPG5Ttw==",
+    "Email": "raffaelediapro@gmail.com",
+    "CF": "DSPRFL03S06A512P",
+    "role": false,
+    "surname": "Diaspro",
+    "cityBirth": "Aversa",
+    "sex": "javax.swing.JComboBox[,124,332,368x25,layout=javax.swing.plaf.metal.MetalComboBoxUI$MetalComboBoxLayoutManager,alignmentX=0.0,alignmentY=0.0,border=,flags=328,maximumSize=,minimumSize=,preferredSize=,isEditable=false,lightWeightPopupEnabled=true,maximumRowCount=8,selectedItemReminder=M]",
+    "name": "Raffaele",
+    "dateBirth": "06\/11\/2003"
+  },
+  {
+    "password": "NN9m+9+TyNbCkjpXHS7\/+g==",
+    "Email": "lisahamered@gmail.com",
+    "CF": "AAAAAA04A63B935I",
+    "role": false,
+    "surname": "aaaa",
+    "cityBirth": "casapulla",
+    "sex": "F",
+    "name": "aaaa",
+    "dateBirth": "23\/01\/2004"
+  },
+  {
+    "password": "NN9m+9+TyNbCkjpXHS7\/+g==",
+    "Email": "gigginopotente@gmail.com",
+    "CF": "PTNGGN04A23B935Z",
+    "role": false,
+    "surname": "potente",
+    "cityBirth": "casapulla",
+    "sex": "M",
+    "name": "giggino",
+    "dateBirth": "23\/01\/2004"
+  },
+  {
+    "password": "ATSG\/auIMqN5RkyW4a6q8g==",
+    "Email": "giancomarcio@gmail.com",
+    "CF": "AAAAAA04A23B935E",
+    "role": false,
+    "surname": "aaa",
+    "cityBirth": "casapulla",
+    "sex": "javax.swing.JComboBox[,124,332,368x25,layout=javax.swing.plaf.metal.MetalComboBoxUI$MetalComboBoxLayoutManager,alignmentX=0.0,alignmentY=0.0,border=,flags=328,maximumSize=,minimumSize=,preferredSize=,isEditable=false,lightWeightPopupEnabled=true,maximumRowCount=8,selectedItemReminder=M]",
+    "name": "aaa",
+    "dateBirth": "23\/01\/2004"
+  }
+]

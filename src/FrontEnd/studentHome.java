@@ -22,9 +22,6 @@ public class studentHome {
     private JLabel emaiLabel;
 
     public studentHome() {
-
-
-
         logoutButton.addActionListener(e -> {
             Login.init();
             frame.dispose();
