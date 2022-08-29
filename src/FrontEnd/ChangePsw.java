@@ -26,18 +26,19 @@ public class ChangePsw {
                 try {
                     if(String.valueOf(passwordField1.getPassword()).equals(String.valueOf(passwordField2.getPassword())))
                     {
-                        if(Users.newPassword(email, String.valueOf(passwordField2.getPassword())))
-                            JOptionPane.showMessageDialog(null, "Password changed!");
-                        else
-                            JOptionPane.showMessageDialog(null, "Password not changed!");
+                        Users.newPassword(email, String.valueOf(passwordField2.getPassword()));
+                        JOptionPane.showMessageDialog(null, "Password changed!");
+                        Login.init();
+                        frame.dispose();
                     }
                     else
-                        JOptionPane.showMessageDialog(null, "Password not changed!");
-
+                    {
+                        JOptionPane.showMessageDialog(null, "Password not changed! Insert twice the same password!");
+                        ChangePsw.init(email);
+                        frame.dispose();
+                    }
                 } catch (IllegalBlockSizeException | NoSuchPaddingException | BadPaddingException |
                          NoSuchAlgorithmException | InvalidKeyException ex) {throw new RuntimeException(ex);}
-                Login.init();
-                frame.dispose();
             }
         });
     }
