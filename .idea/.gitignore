@@ -4,3 +4,5 @@ workspace.xml
 discord.xml
 ../out/
 uiDesigner.xml
+../src/app.json
+../IndexApp.json

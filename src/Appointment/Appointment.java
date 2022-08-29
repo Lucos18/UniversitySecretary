@@ -18,7 +18,7 @@ public class Appointment {
 
         /*Const*/
         static final int maxApp =12;        //max appointment per day
-        static final int dimApp=150;        //dimension of each appointment
+        static final int dimApp=136;        //dimension of each appointment     150 if id
 
         /*Attributes of Appointment */
         String date;    // dd/mm/yyyy
@@ -27,13 +27,13 @@ public class Appointment {
         String descr;   //short description max 50 ch
         String id;      //max 6 char
         boolean status=true; //if true appointment was approved
-        public Appointment(String date, String hour, String CF, String descr,String ramID)
+        public Appointment(String date, String hour, String CF, String descr)
         {
             this.date=fixStrLen(date,10);
             this.hour=fixStrLen(hour,5);
             this.CF=fixStrLen(CF,16);
             this.descr=fixStrLen(descr,50);
-            this.id=fixStrLen(ramID,6);
+            //this.id=fixStrLen(genID(),6);
         }
 
         public boolean getStatus(){return status;}
@@ -42,12 +42,12 @@ public class Appointment {
 
         /*Methods*/
 
-        public static String  genID()//not
+        /*public static String  genID()
         {
             String ID;
             ID="1";
             return ID;
-        }
+        }*/
 
         static short hourToN(String hour)//done
                 /*Method for N of appointment
@@ -83,18 +83,17 @@ public class Appointment {
                                       /*Method for creation of void appointment */
         {
             JSONObject voidReq = new JSONObject();
-            Appointment voidApp=new Appointment("*","*","*","*","-11111");
+            Appointment voidApp=new Appointment("*","*","*","*");
             voidApp.setStatus(false);
             voidReq.put("CF", voidApp.CF);
             voidReq.put("date", dateToAdd);
             voidReq.put("hour",voidApp.hour);
             voidReq.put("desc", voidApp.descr);
             voidReq.put("status",voidApp.status);
-            voidReq.put("id",voidApp.id);
             return voidReq;
         }
 
-        static long srcAppID(String CF,long posk)//done
+        static long srcAppCf(String CF,long posk)//done
                                 /*Method for appointment search by cf
                                     return the pos of the block of appointment of specified date
                                     */
@@ -132,7 +131,7 @@ public class Appointment {
             JSONArray appDate= new JSONArray();
             try {
                 RandomAccessFile file= new RandomAccessFile("src\\Appointment\\app.json","rw");
-                while ((srcAppID(CF,pos))!=-1)
+                while ((srcAppCf(CF,pos))!=-1)
                 {
                     line = file.readLine();
                     JSONObject temp = new JSONObject(line);
@@ -211,7 +210,6 @@ public class Appointment {
             req.put("hour", reqToApp.hour);
             req.put("desc", reqToApp.descr);
             req.put("status",reqToApp.status);
-            req.put("id",reqToApp.id);
             try {
                 RandomAccessFile app= new RandomAccessFile("src\\Appointment\\app.json","rw");
                 if(pos==-1) /*if not found, add to index, the position of new date*/
@@ -272,7 +270,6 @@ public class Appointment {
             req.put("hour", AppToCanc.hour);
             req.put("desc", AppToCanc.descr);
             req.put("status",false);
-            req.put("id",AppToCanc.id);
             req.put("pos",pos);
             if(pos!=-1) {                       //if pos =-1 the appointment doesn't exist
                 try {
@@ -285,7 +282,7 @@ public class Appointment {
                         response = true;
                         file.seek(posizione);
                         JSONObject voidReq = voidingReq(AppToCanc.date);                            //create void appointment
-                        file.writeBytes(voidReq.toString());
+                        file.writeBytes(voidReq.toString());                                        /*overwriting*/
                         file.writeBytes("\n");
                     } else System.out.println("errore nella cancellazione");
                     file.close();
