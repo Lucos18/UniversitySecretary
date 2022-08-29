@@ -26,17 +26,19 @@ public class scheduleAppointment {
             boolean valid = true;
             if(dateTxtFld.isValid() && descriptionTxtFld.isValid() && TimeBox.isValid())
             {
+                //Check if the description is longer than 50 characters
                 if (descriptionTxtFld.getText().length() > 50)
                 {
                     JOptionPane.showMessageDialog(null, "Description can't have more than 50 characters.");
                     valid = false;
                 }
+                //Check if the date contains "-" for correct date syntax
                 if(!(dateTxtFld.getText().contains("-"))){
                     JOptionPane.showMessageDialog(null, "Please, separate the date with '-'");
                     valid = false;
                 }
                 if (valid){
-                    System.out.println(dateTxtFld.getText());
+                    //Create a new Appointment object
                     Appointment app = new Appointment(dateTxtFld.getText(),TimeBox.getSelectedItem().toString(),st.getCF(),descriptionTxtFld.getText());
                     if(Appointment.reqApp(app)) JOptionPane.showMessageDialog(null, "Appointment created.");
                     else JOptionPane.showMessageDialog(null, "Appointment not created, time already taken. Please choose another one from the list.");

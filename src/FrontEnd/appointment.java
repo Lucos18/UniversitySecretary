@@ -35,16 +35,19 @@ public class appointment {
             public void componentShown(ComponentEvent e) {
                 super.componentShown(e);
                 boolean appointmentFound = false;
+                //Get appointment list
                 org.json.JSONArray appointmentListJSON = Appointment.printAppName(st.getCF());
                 DefaultListModel model = new DefaultListModel();
+                //Get user CF
                 String userCF = st.getCF();
                 for (int i = 0; i < appointmentListJSON.length(); i++)
                 {
-                    //Boolean to see if an email has been found inside the JSON array
+                    //If CF found, will continue
                     boolean CFFoundUser = ((((org.json.JSONObject) appointmentListJSON.get(i)).get("CF").equals(userCF)));
                     if (CFFoundUser)
                     {
                         appointmentFound = true;
+                        //Get all the appointment information to print in student home
                         model.addElement("Date: " + ((org.json.JSONObject) appointmentListJSON.get(i)).get("date") + "\n");
                         model.addElement("Hour appointment: " + ((org.json.JSONObject) appointmentListJSON.get(i)).get("hour") + "\n");
                         String Description = ("Description: " + ((org.json.JSONObject) appointmentListJSON.get(i)).get("desc") + "\n");

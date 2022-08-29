@@ -27,7 +27,7 @@ public class studentHome {
             frame.dispose();
         });
         appointmentButton.addActionListener(e -> {
-            appointment.init(st);//passa la mail
+            appointment.init(st);
             frame.dispose();
         });
 
@@ -35,7 +35,7 @@ public class studentHome {
             @Override
             public void componentShown(ComponentEvent e) {
                 super.componentShown(e);
-                //funzione che restituisce oggetto utente con tutte le info
+                //Get all the information about the user and insert them inside the student home page
                 nameLabel.setText(st.getName());
                 surnameLabel.setText(st.getSurname());
                 birthCLabel.setText(st.getCityB());

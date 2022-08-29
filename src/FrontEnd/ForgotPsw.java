@@ -15,10 +15,12 @@ public class ForgotPsw {
     public ForgotPsw() {
         SendMButton.addActionListener(e -> {
             u.setEmail(emailTxtFld.getText());
+            //Check if the email has the right syntax
             if(Users.checkEmailValidation(u.getEmail())) {
+                //Check if the Email exists inside the "users.json" file
                 if (SendMail.checkUserEmailExists(u.getEmail()))
                 {
-                    SendMail.sendMail(u.getEmail(), "noreply", "Change password, insert this OTP: "+SendMail.createOTP(emailTxtFld.getText()));
+                    SendMail.sendMail(u.getEmail(), "noreply", "To change the password on the University Secretary, please insert this OTP: "+SendMail.createOTP(emailTxtFld.getText()));
                     OTP.init(u);
                     frame.dispose();
                 }

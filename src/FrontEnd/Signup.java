@@ -51,6 +51,7 @@ public class Signup {
                 super.focusGained(e);
                 if(nameTxtFld.isValid() && surnameTxtFld.isValid() && birthcTxtFld.isValid() && birthdTxtFld.isValid() && sexCmbox.isValid()&&checkDate(birthdTxtFld.getText()))
                 {
+                    //Create a new object User
                     u = new Users (nameTxtFld.getText(),surnameTxtFld.getText(),birthdTxtFld.getText(),birthcTxtFld.getText(),sexCmbox.getSelectedItem().toString(),null,null); //creation and inazialization of the object user
                     try {
                         SSNTxtFld.setText(SSN.SSNC(u));
@@ -70,9 +71,10 @@ public class Signup {
             if(passwordTxtFld.isValid())
                 u.setPassword(String.valueOf(passwordTxtFld.getPassword()));
             try {
-
+                //Check if the User is already registered on the platform
                 if(Users.RegisterUser(u))
                 {
+                    //Open the OTP verification page
                     OTP.init(u);
                     frame.dispose();
                 }

@@ -24,6 +24,7 @@ public class Login {
             {
                 Users u =new Users(emailTxtFld.getText(),String.valueOf(passwordTxtFld.getPassword()));
                 try {
+                    //If correct Login, get the user to his StudentHome
                     if (Users.Login(u))
                     {
                         if(!u.getRole()) {

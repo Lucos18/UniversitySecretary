@@ -24,10 +24,13 @@ public class ChangePsw {
             if(passwordField1.isValid()&&passwordField2.isValid())
             {
                 try {
+                    //Check if the first password in the text field equals to the second password in the text field
                     if(String.valueOf(passwordField1.getPassword()).equals(String.valueOf(passwordField2.getPassword())))
                     {
+                        //Change the password inside the file "users.json"
                         Users.newPassword(email, String.valueOf(passwordField2.getPassword()));
                         JOptionPane.showMessageDialog(null, "Password changed!");
+                        //Get the user to the Login page
                         Login.init();
                         frame.dispose();
                     }
