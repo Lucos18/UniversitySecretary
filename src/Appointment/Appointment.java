@@ -20,8 +20,12 @@ public class Appointment {
         static final int maxApp =12;        //max appointment per day
         static final int dimApp=136;        //dimension of each appointment     150 if id
 
+        static final String pathAppJson="src\\Appointment\\app.json";
+
+        static final String pathIndexJson="src\\Appointment\\IndexApp.json";
+
         /*Attributes of Appointment */
-        String date;    // dd/mm/yyyy
+        String date;    // dd-mm-yyyy
         String hour;    // hh:mm
         String CF;
         String descr;   //short description max 50 ch
@@ -49,7 +53,7 @@ public class Appointment {
             return ID;
         }*/
 
-        static short hourToN(String hour)//done
+        private static short hourToN(String hour)//done
                 /*Method for N of appointment
                     return the cardinal number of the appointment based on hour
                     */
@@ -62,7 +66,7 @@ public class Appointment {
             return n;
         }
 
-        public static String fixStrLen(String Ostr, int len)//done
+        private static String fixStrLen(String Ostr, int len)//done
                 /*Method for inserting "void" character in string appointment field
                     */
         {
@@ -79,7 +83,7 @@ public class Appointment {
             return str;
         }
 
-        static JSONObject voidingReq(String dateToAdd)
+        private static JSONObject voidingReq(String dateToAdd)
                                       /*Method for creation of void appointment */
         {
             JSONObject voidReq = new JSONObject();
@@ -93,7 +97,7 @@ public class Appointment {
             return voidReq;
         }
 
-        static long srcAppCf(String CF,long posk)//done
+        private static long srcAppCf(String CF,long posk)//done
                                 /*Method for appointment search by cf
                                     return the pos of the block of appointment of specified date
                                     */
@@ -103,7 +107,7 @@ public class Appointment {
             try {
                 String line;
                 boolean flag = true;
-                RandomAccessFile file = new RandomAccessFile("src\\Appointment\\app.json", "rw");
+                RandomAccessFile file = new RandomAccessFile( pathAppJson, "rw");
                 file.seek(posk);
                 while (((line = file.readLine()) != null) && flag)        /*Search in index file position of requested cf*/
                 {
@@ -121,6 +125,34 @@ public class Appointment {
             return pos;
         }
 
+        private static Long srcAppDate(String dateS)//done
+                    /*Method for appointment search by date
+                        return the pos of the block of appointment of specified date
+                        */
+        {
+            long pos = -1;
+
+            try {
+                String line;
+                boolean flag=true;
+                RandomAccessFile file= new RandomAccessFile(pathIndexJson,"r");
+                file.seek(0);
+                while(((line=file.readLine())!=null) && flag)        /*Search in index file position of requested data*/
+                {
+                    JSONObject temp = new JSONObject(line);
+                    String date = temp.getString("date");
+                    if(date.equalsIgnoreCase(dateS))                /*if found, set pos value and exit cicle*/
+                    {
+                        pos = temp.getLong("pos");
+                        flag=false;
+                    }
+                }
+                file.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);}
+            return pos;
+        }
+
         public static JSONArray printAppName(String CF)//done
                             /*Method print all appointment whith specific name
                                 return a jason array with all appointment with that name
@@ -130,7 +162,7 @@ public class Appointment {
             long pos=0;
             JSONArray appDate= new JSONArray();
             try {
-                RandomAccessFile file= new RandomAccessFile("src\\Appointment\\app.json","rw");
+                RandomAccessFile file= new RandomAccessFile( pathAppJson,"rw");
                 while ((srcAppCf(CF,pos))!=-1)
                 {
                     line = file.readLine();
@@ -153,7 +185,7 @@ public class Appointment {
             JSONArray appDate= new JSONArray();
             long pos=srcAppDate(date);
             try {
-                RandomAccessFile file= new RandomAccessFile("src\\Appointment\\app.json","rw");
+                RandomAccessFile file= new RandomAccessFile( pathAppJson,"rw");
                 file.seek(pos);
                 for(int i=0;i<maxApp;i++)
                 {
@@ -166,34 +198,6 @@ public class Appointment {
                 throw new RuntimeException(e);
             }
             return appDate;
-        }
-
-        private static Long srcAppDate(String dateS)//done
-                /*Method for appointment search by date
-                    return the pos of the block of appointment of specified date
-                    */
-        {
-            long pos = -1;
-
-            try {
-                String line;
-                boolean flag=true;
-                RandomAccessFile file= new RandomAccessFile("src\\Appointment\\IndexApp.json","r");
-                file.seek(0);
-                while(((line=file.readLine())!=null) && flag)        /*Search in index file position of requested data*/
-                {
-                    JSONObject temp = new JSONObject(line);
-                    String date = temp.getString("date");
-                    if(date.equalsIgnoreCase(dateS))                /*if found, set pos value and exit cicle*/
-                    {
-                        pos = temp.getLong("pos");
-                        flag=false;
-                    }
-                }
-                file.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);}
-            return pos;
         }
 
         public static boolean reqApp(Appointment reqToApp)//done
@@ -211,12 +215,12 @@ public class Appointment {
             req.put("desc", reqToApp.descr);
             req.put("status",reqToApp.status);
             try {
-                RandomAccessFile app= new RandomAccessFile("src\\Appointment\\app.json","rw");
+                RandomAccessFile app= new RandomAccessFile( pathAppJson,"rw");
                 if(pos==-1) /*if not found, add to index, the position of new date*/
                 {
                     RandomAccessFile index;
                     try {
-                        index = new RandomAccessFile("src\\Appointment\\IndexApp.json","rw");
+                        index = new RandomAccessFile(pathIndexJson,"rw");
                         JSONObject reqIndex = new JSONObject();    //object for request index
                         pos=app.length();
                         reqIndex.put("pos", pos);
@@ -256,7 +260,7 @@ public class Appointment {
             return response;
         }
 
-        public static boolean cancApp(Appointment AppToCanc)//done
+        public static boolean delApp(Appointment AppToCanc)//done
                 /*Method to delete a requested appointment
                     search appointment using date and overwrite it
                     */
@@ -273,7 +277,7 @@ public class Appointment {
             req.put("pos",pos);
             if(pos!=-1) {                       //if pos =-1 the appointment doesn't exist
                 try {
-                    RandomAccessFile file = new RandomAccessFile("src\\Appointment\\app.json", "rw");       /*search appointment and overwrite with a void one*/
+                    RandomAccessFile file = new RandomAccessFile( pathAppJson, "rw");       /*search appointment and overwrite with a void one*/
                     long posizione=pos + ((long) dimApp * hourToN(AppToCanc.hour));
                     file.seek(posizione);
                     String line = file.readLine();
@@ -294,16 +298,16 @@ public class Appointment {
             return response;
         }
 
-        public static void delOldApp()//not
+        public static void delOldApp()//done
                  /*Method to delete all old appointment
                    write in a new file all appointment by this date and above, then change the name and delete old files
                     */
         {
-            String[] filename={"src\\Appointment\\IndexApp.json","src\\Appointment\\app.json","src\\Appointment\\NEWIndexApp.json","src\\Appointment\\NEWapp.json"};
+            String[] filename={pathIndexJson, pathAppJson,"src\\Appointment\\NEWIndexApp.json","src\\Appointment\\NEWapp.json"};
             try {
                 Calendar cal=Calendar.getInstance();
-                String str_date= cal.get(Calendar.DATE) + "-" + cal.get(Calendar.MONTH) + "-" + cal.get(Calendar.YEAR);
-                DateFormat formatter = new SimpleDateFormat("dd-MMM-yy");
+                String str_date= cal.get(Calendar.DATE) + "-" + (cal.get(Calendar.MONTH)+1) + "-" + cal.get(Calendar.YEAR);
+                DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                 Date actDate = formatter.parse(str_date);
 
                 for(int i=0;i<2;i++) {
@@ -314,12 +318,15 @@ public class Appointment {
                     while (((line = fileToCanc.readLine()) != null))        /*search file */ {
                         JSONObject temp = new JSONObject(line);
                         Date date = formatter.parse(temp.getString("date"));
-                        if (actDate.compareTo(date)>=0)                /*if found rewrite in newfile*/ {
+                        if (actDate.compareTo(date)<=0)                /*if found rewrite in newfile*/ {
                             Newfile.writeBytes(temp.toString());
+                            Newfile.writeBytes("\n");
                         }
                     }
+                    fileToCanc.close();
+                    Newfile.close();
                     Files.delete(Path.of(filename[i]));
-                    Files.move(Path.of(filename[i]), Path.of(filename[i+2]));
+                    Files.move(Path.of(filename[i+2]),Path.of(filename[i]));
                 }
             } catch (IOException | ParseException e) {
                 throw new RuntimeException(e);
