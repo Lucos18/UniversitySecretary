@@ -5,21 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="456e2a65-5d2e-4928-a8ee-c04764c9b454" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/Libraries/json-20220320 (1).jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/Libraries/json_20220320__1_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/json_simple_1_12.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/OTP.json" beforeDir="false" afterPath="$PROJECT_DIR$/OTP.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UniversitySecretary.iml" beforeDir="false" afterPath="$PROJECT_DIR$/UniversitySecretary.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Appointment/Appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Appointment/Appointment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Appointment/IndexApp.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/Appointment/IndexApp.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Appointment/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/Appointment/app.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FrontEnd/appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FrontEnd/appointment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FrontEnd/scheduleAppointment.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/FrontEnd/scheduleAppointment.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FrontEnd/scheduleAppointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FrontEnd/scheduleAppointment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FrontEnd/studentHome.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FrontEnd/studentHome.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Users/Users.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Users/Users.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FrontEnd/ChangePsw.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FrontEnd/ChangePsw.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/users.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
